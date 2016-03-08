@@ -1,5 +1,5 @@
 {
-  "name": "myRecs",
+  "name": "myrecs",
   "version": "1.0.0",
   "description": "Site for people to get reccomendations on books, movies, music, food, and everything under the sun",
   "main": "index.js",
@@ -8,18 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/piercecunneen/recommendationSite.git"
+    "url": "git+https://github.com/piercecunneen/myrecs.git"
   },
   "keywords": [],
   "author": "Pierce Cunneen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/piercecunneen/recommendationSite/issues"
+    "url": "https://github.com/piercecunneen/myrecs/issues"
   },
-  "homepage": "https://github.com/piercecunneen/recommendationSite#readme",
+  "homepage": "https://github.com/piercecunneen/myrecs#readme",
   "dependencies": {
     "ejs": "2.4.1",
-    "ejs-locals": "1.0.2",
-    "express": "4.13.4",
+    "express": "4.13.4"
   }
 }

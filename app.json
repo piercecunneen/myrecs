@@ -1,7 +1,7 @@
 {
-  "name": "myRecs",
+  "name": "myrecs",
   "description": "Site for people to get reccomendations on books, movies, music, food, and everything under the sun",
-  "repository": "https://github.com/piercecunneen/recommendationSite",
+  "repository": "https://github.com/piercecunneen/myrecs",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "keywords": ["node", "express"],
   "image": "heroku/nodejs"

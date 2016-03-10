@@ -68,8 +68,7 @@ function createArtistsSongsDB(client, done){
 	var table = "ArtistsSongs";
 	var query = client.query("CREATE TABLE " + table + "(artistID int REFERENCES musicArtists(artistID), songID int REFERENCES songs(songID))" , function (err) {
 		if (err) {
-						console.log(err);
-			console.log("Table " + table + " already exists");
+			console.log(err);
 		}
 		else{
 			console.log("Table " + table + " created successfully");
@@ -77,17 +76,17 @@ function createArtistsSongsDB(client, done){
 		
 	});
 	query.on('end', function(){
-		client.query('CREATE INDEX on ArtistsSongs (artistID)', endConnection(client, query));
-
-
+		var query2 = client.query('CREATE INDEX on ArtistsSongs (artistID)');
+		endConnection(client, query2);
 
 	});
+
 
 }
 
 function createAlbumDB(client, done){
 	var table = "Albums";
-	var query = client.query("CREATE TABLE " + table + "(albumID SERIAL PRIMARY KEY, artistID int REFERENCES musicArtists(artistID))" , function (err) {
+	var query = client.query("CREATE TABLE " + table + "(albumID SERIAL PRIMARY KEY, albumName VARCHAR(40), artistID int REFERENCES musicArtists(artistID))" , function (err) {
 		if (err) {
 			console.log("Table " + table + " already exists");
 		}
@@ -100,9 +99,12 @@ function createAlbumDB(client, done){
 
 function endConnection(client, query){
 	query.on('end', function() {
+		console.log('ending connection');
 		client.end();
 	});
 }
+
+
 
 
 

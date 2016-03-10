@@ -4,7 +4,7 @@ var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name
 
 var client = new pg.Client(db_path);
 
-tables = ['users', 'artistssongs', 'musicartists', 'songs'];
+tables = ['users', 'artistssongs', 'musicartists', 'songs', 'albums'];
 count = tables.length;
 pg.connect(db_path, function (err, client, done) {
 	if (err){

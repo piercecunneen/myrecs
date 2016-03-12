@@ -13,7 +13,7 @@ pg.connect(db_path, function (err, client, done) {
 		createMusicArtistsDB(client, done);
 		createAlbumDB(client, done);
 		createSongDB(client, done);
-		createArtistsSongsDB(client, done);
+		// createArtistsSongsDB(client, done);
 
 	}
 
@@ -37,14 +37,15 @@ function createUsers(client, done){
 
 function createSongDB(client, done){
 	var table = "songs";
-	var query = client.query("CREATE TABLE " + table + "(songID SERIAL PRIMARY KEY, songTitle VARCHAR(50) not null, artistID int REFERENCES musicartists(artistID), albumID int REFERENCES albums(albumID))" , function (err) {
+	var query = client.query("CREATE TABLE " + table + "(songID SERIAL PRIMARY KEY, songTitle VARCHAR(50) not null, artistID int REFERENCES musicArtists (artistID),  albumID int REFERENCES Albums (albumID))" , function (err) {
 		if (err) {
+			console.log(err);
 			console.log("Table " + table + " already exists");
 		}
 		else{
 			console.log("Table " + table + " created successfully");
 		}
-		done();
+		endConnection(client, query);
 	});
 	
 }
@@ -64,25 +65,26 @@ function createMusicArtistsDB(client, done){
 }
 
 
-function createArtistsSongsDB(client, done){
-	var table = "ArtistsSongs";
-	var query = client.query("CREATE TABLE " + table + "(artistID int REFERENCES musicArtists(artistID), songID int REFERENCES songs(songID))" , function (err) {
-		if (err) {
-			console.log(err);
-		}
-		else{
-			console.log("Table " + table + " created successfully");
-		}
+// function createArtistsSongsDB(client, done){
+// 	var table = "ArtistsSongs";
+// 	var query = client.query("CREATE TABLE " + table + "(artistID int REFERENCES musicArtists(artistID), songID int REFERENCES songs(songID))" , function (err) {
+// 		if (err) {
+// 			console.log(err);
+// 		}
+// 		else{
+// 			console.log("Table " + table + " created successfully");
+// 		}
 		
-	});
-	query.on('end', function(){
-		var query2 = client.query('CREATE INDEX on ArtistsSongs (artistID)');
-		endConnection(client, query2);
+// 	});
+// 	query.on('end', function(){
+// 		var query2 = client.query('CREATE INDEX on ArtistsSongs (artistID)');
+// 		endConnection(client, query2);
 
-	});
+// 	});
 
 
-}
+// }
+
 
 function createAlbumDB(client, done){
 	var table = "Albums";

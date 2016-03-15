@@ -31,6 +31,22 @@ function getSongsByArtist(artistName, client, callback){
 	});
 }
 
+function getSongInfo(songName, client, callback){
+	var queryString = "SELECT albums.albumName, musicArtists.artistName, musicArtists.artistID, albums.albumID from songs INNER JOIN musicArtists on songs.artistID = musicArtists.artistID JOIN albums on albums.albumID = songs.albumID WHERE songs.songTitle = $1";
+	var params = [songName];
+	exectuteSelect(queryString, params, client, callback);
+}
+
+
+function getSongsOnAlbum(albumName, client, callback) {
+	var queryString = "SELECT songs.songTitle from albums INNER JOIN songs on songs.albumID = albums.albumID and albums.albumName = $1";
+	var params = [albumName];
+	exectuteSelect(queryString, params, client, callback);
+
+}
+
+
+
 function exectuteSelect(queryString, params, client, callback){
 	client.query(queryString, params, 
 		function(err, results){
@@ -40,17 +56,28 @@ function exectuteSelect(queryString, params, client, callback){
 			else{
 				callback(results.rows)
 			}
-	})
+	});
 
 }
 
-var client = insertFunctions.getClient(db_path);
+// var client = insertFunctions.getClient(db_path);
 // getAlbumsByArtist('swifft', client, console.log);
-getSongsByArtist('perfry', client, function(results){
+// getSongsByArtist('per
+// 	ry', client, function(results){
+// 	console.log(results);
+// 	client.end();
+
+// });
+
+var client = insertFunctions.getClient(db_path);
+getSongInfo("Halo", client, function(results) {
 	console.log(results);
 	client.end();
+})
 
-});
-
+// getSongInfo('Halo',client, function(results){
+// 	console.log(results);
+// 	client.end();
+// } )
 
 

@@ -27,7 +27,9 @@ function insertAlbums(albumsAndArtists){
 function insertSongs(songs){
 	for (var i = 0; i < songs.length; i++){
 		console.log(songs[i].songName);
-		insertOperations.addSong(songs[i].songName, songs[i].artistName, songs[i].albumName);
+		insertOperations.addSong(songs[i].songName, songs[i].artistName, songs[i].albumName, function(client){
+			client.end();
+		});
 	}
 
 }
@@ -47,4 +49,4 @@ var songs = [ {songName:"We are never gettting back together" , artistName:'swif
 
 // insertArtists(artists);
 // insertAlbums(albums);
-insertSongs(songs);
+// insertSongs(songs);

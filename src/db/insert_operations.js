@@ -96,6 +96,12 @@ function addSong(songTitle, artistName, albumName, client, callback){
 	});
 }
 
+function addGenre(genreName, client, callback){
+	var queryString = "INSERT into musicGenres values (DEFAULT, $1)";
+	var params = [genreName];
+	executeInsert(queryString, params, client, callback);
+}
+
 function executeInsert(queryString, params, client, callback){
 	// Written to create a more modular codebase and reduce code reuse.
 	var query = client.query(queryString, params,
@@ -113,18 +119,6 @@ function executeInsert(queryString, params, client, callback){
 }
 
 
-function addArtistSongMatch(artistID, songID, client){
-	var query = client.query("insert into ArtistsSongs values ($1, $2)", [artistID, songID],
-		function(err, results){
-			if (err){
-				console.log(err);
-			}
-			else{
-				console.log("Song artist match inserted");
-				endConnection(client, query)
-			}
-		});
-}
 
 
 function endConnection(client, query){
@@ -207,6 +201,13 @@ var songs = [ {songName:"Disturbia" , artistName:'Rihanna' , albumName:'Good gir
 // insertArtists(artists);
 // insertAlbums(albums);
 // insertSongs(songs);
+var client = getClient(db_path);
+addGenre("Rap",client, function(client, query){
+	query.on("end", function(){
+		client.end();
+	});
+
+});
 
 module.exports = {
 	addSong: addSong,

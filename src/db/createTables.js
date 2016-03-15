@@ -12,98 +12,135 @@ pg.connect(db_path, function (err, client, done) {
 		createUsers(client, done);
 		createMusicArtistsDB(client, done);
 		createAlbumDB(client, done);
-		createSongDB(client, done);
-		// createArtistsSongsDB(client, done);
+		createMusicGenreDB(client, done);
+		createSongDB(client, endConnection);
 
 	}
 
-
 });
 
-function createUsers(client, done){
+function createUsers(client, callback){
 	var table = "users";
 	var query = client.query("CREATE TABLE " + table + "(id SERIAL PRIMARY KEY, username VARCHAR(40) not null, password UUID not null, email VARCHAR(40), isValidated BOOLEAN)", function (err) {
 		if (err) {
-			console.log("Table " + table + " already exists");
+			console.log(err);
+
 		}
 		else{
 			console.log("Table " + table + " created successfully");
+			callback();
+
 		}
-		done();
 	});
 	
 
 }
 
-function createSongDB(client, done){
+function createSongDB(client, callback){
 	var table = "songs";
 	var query = client.query("CREATE TABLE " + table + "(songID SERIAL PRIMARY KEY, songTitle VARCHAR(50) not null, artistID int REFERENCES musicArtists (artistID),  albumID int REFERENCES Albums (albumID))" , function (err) {
 		if (err) {
 			console.log(err);
-			console.log("Table " + table + " already exists");
+
 		}
 		else{
 			console.log("Table " + table + " created successfully");
+			
 		}
-		endConnection(client, query);
+		callback(client,query);
 	});
 	
 }
 
-function createMusicArtistsDB(client, done){
+function createMusicArtistsDB(client, callback){
 	var table = "musicArtists";
 	var query = client.query("CREATE TABLE " + table + "(artistID SERIAL PRIMARY KEY, artistName VARCHAR(50) not null)" , function (err) {
 		if (err) {
-			console.log("Table " + table + " already exists");
+			console.log(err);
+
 		}
 		else{
 			console.log("Table " + table + " created successfully");
+			callback();
+
 		}
-		done();
 	});
 
 }
 
 
-// function createArtistsSongsDB(client, done){
-// 	var table = "ArtistsSongs";
-// 	var query = client.query("CREATE TABLE " + table + "(artistID int REFERENCES musicArtists(artistID), songID int REFERENCES songs(songID))" , function (err) {
-// 		if (err) {
-// 			console.log(err);
-// 		}
-// 		else{
-// 			console.log("Table " + table + " created successfully");
-// 		}
-		
-// 	});
-// 	query.on('end', function(){
-// 		var query2 = client.query('CREATE INDEX on ArtistsSongs (artistID)');
-// 		endConnection(client, query2);
-
-// 	});
 
 
-// }
-
-
-function createAlbumDB(client, done){
+function createAlbumDB(client, callback){
 	var table = "Albums";
 	var query = client.query("CREATE TABLE " + table + "(albumID SERIAL PRIMARY KEY, albumName VARCHAR(40), artistID int REFERENCES musicArtists(artistID))" , function (err) {
 		if (err) {
-			console.log("Table " + table + " already exists");
+			console.log(err);
+
 		}
 		else{
 			console.log("Table " + table + " created successfully");
+			callback();
+
 		}
-		done();
 	});
+}
+function createMusicGenreDB(client, callback){
+	var table = "MusicGenres";
+	var queryString = "CREATE TABLE " + table + "(musicGenre SERIAL PRIMARY KEY, musicGenreName VARCHAR(40))";
+	var params = [];
+	executeInsert(queryString, params, client, function(){
+		queryString = "CREATE Unique Index on " + table + "(musicGenreName) ";
+		executeInsert(queryString, params, client, function(err, results){
+			if (err){
+				console.log(err);
+			}	
+			else{
+				console.log(results);
+				callback();
+			}
+		});
+	});
+	
+
+
+}
+
+function returnClientToPool(client, query){
+	if (typeof query === "Undefined") {
+		console.log(err);
+
+	}
+	else{
+		client.done();
+	}
+}
+
+
+function executeInsert(queryString, params, client, callback){
+	// Written to create a more modular codebase and reduce code reuse.
+	var query = client.query(queryString, params,
+		function(err, results) {
+			if (err){
+				console.log(err);
+			}
+			else{
+				callback(results);
+				
+			}
+		})
 }
 
 function endConnection(client, query){
-	query.on('end', function() {
-		console.log('ending connection');
-		client.end();
-	});
+	if (typeof query === "Undefined"){
+		console.log(err);
+	}
+	else{	
+		query.on('end', function() {
+			console.log('ending connection');
+			client.end();
+		});
+	}
 }
 
 

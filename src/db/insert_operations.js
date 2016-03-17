@@ -4,6 +4,7 @@ var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name
 var crypto = require('crypto');
 
 
+
 function hashPassword(password){
 	var md5Hash = crypto.createHash('md5');
 	HashedPassword = md5Hash.update(password).digest('hex');
@@ -11,114 +12,50 @@ function hashPassword(password){
 }
 
 
+
+
+
 function addUser(username, password, email, client, callback){
-	var query = client.query("INSERT INTO users(id, username, password, email,isValidated) values (DEFAULT, $1, $2, $3, $4)",	
-		[username, hashPassword(password), email, 0], 
-		function(err, result){
-			if (err){
-				console.log(err);
-				callback()
-			}
-			else{
-				console.log( username + 'inserted');
-				callback(client, query);
-			}
-		}
-	);
+	var queryString = "INSERT INTO users(id, username, password, email,isValidated) values (DEFAULT, $1, $2, $3, $4)";
+	var queryParameters = [username, hashPassword(password), email, 0];
+	executeInsertQuery(queryString, queryParameters, client, callback);
 }
 
-
-
-function getClient(db_path){
-	// Connects to postgresql database and returns the client connection
-	var client = new pg.Client(db_path);
-	client.connect();
-	return client;
-
-}
 
 function addArtist (artistName, client, callback){
+	var queryString = "insert into musicArtists values (DEFAULT, $1)";
 	var queryParameters = [artistName];
-	executeInsert("insert into musicArtists values (DEFAULT, $1)", queryParameters, client, callback);
-}
-
-function getArtistID(artistName, client, callback){
-	
-	var query = client.query(
-		"select artistID from musicArtists where artistName = $1", [artistName]
-		, function (err, results){
-			if (err){
-				console.log(err);
-			}
-			else if (results.rows.length == 0){
-				callback("None")
-			}
-			else{
-
-				callback(results.rows[0].artistid);
-			}
-		});
+	executeInsertQuery(queryString, queryParameters, client, callback);
 }
 
 
 
-
-
-function getAlbumID(artistName,client, callback){
-	var query = client.query(
-		"select albumID from albums where albumName = $1", [artistName]
-		, function (err, results){
-			if (err){
-				console.log(err);
-				return -1;
-			}
-			else{
-				callback(results.rows[0].albumid);
-			}
-		});
-}
 
 function addAlbum (albumTitle, artistName, client, callback) {
-	getArtistID(artistName, client, function(artistID){
+	selectFunctions.getArtistID(artistName, client, function(artistID){
+		var queryString = "insert into albums values (DEFAULT, $1, $2)";
 		var queryParameters = [albumTitle, artistID];
-		executeInsert("insert into albums values (DEFAULT, $1, $2)", queryParameters, client, callback); 
+		executeInsertQuery(queryString, queryParameters, client, callback); 
 	});	
 }
 
 
 
 function addSong(songTitle, artistName, albumName, client, callback){
-	getArtistID(artistName, client,function(artistID){
-		getAlbumID(albumName, client,function(albumID) {
+	selectFunctions.getArtistID(artistName, client,function(artistID){
+		selectFunctions.getAlbumID(albumName, client,function(albumID) {
+			var queryString ="insert into songs values (DEFAULT, $1, $2, $3) RETURNING songid"; 
 			var queryParameters = [songTitle, artistID, albumID]
-			executeInsert("insert into songs values (DEFAULT, $1, $2, $3) RETURNING songid", queryParameters, client, callback)				
+			executeInsertQuery(queryString, queryParameters, client, callback)				
 		});
 	});
 }
 
 function addGenre(genreName, client, callback){
 	var queryString = "INSERT into musicGenres values (DEFAULT, $1)";
-	var params = [genreName];
-	executeInsert(queryString, params, client, callback);
+	var queryParameters = [genreName];
+	executeInsertQuery(queryString, queryParameters, client, callback);
 }
-
-function executeInsert(queryString, params, client, callback){
-	// Written to create a more modular codebase and reduce code reuse.
-	var query = client.query(queryString, params,
-		function(err, results) {
-			if (err){
-				console.log(err);
-			}
-			else{
-				console.log("insertion successful");
-				if (typeof callback != 'undefined'){
-					callback(client, query);
-				}
-			}
-		})
-}
-
-
 
 
 function endConnection(client, query){
@@ -127,62 +64,94 @@ function endConnection(client, query){
 		client.end();
 	});
 }
-// module.exports.addArtist = addArtist;
-// module.exports.addAlbum = addAlbum;
-// module.exports.addSong = addSong;
-// module.exports.addUser = addUser;
 
 
 
-
-
-
-
-
-function insertArtists(artistNames){
-	var client = getClient(db_path);
-	for (var i = 0; i < artistNames.length; i++){
-		if (i == artistNames.length - 1) {
-			addArtist(artistNames[i], client, endConnection);
-
+function getClient(db_path, callback){
+	pg.connect(db_path, function(err, client, done){
+		if (err){
+			console.log(err);
 		}
 		else{
-			addArtist(artistNames[i], client);
+			client.done = done; // allow for client to be passed around while allowing for client to be returned to client pool
+			callback(client);
+		}
+	});
+}
+
+
+function executeInsertQuery(queryString, queryParameters, client, callback){ // insert version
+	// Written to create a more modular codebase and reduce code reuse.
+	var query = client.query(queryString, queryParameters,
+		function(err, results) {
+			if (err){
+				console.log(err);
+			}
+			else{
+				if (callback == 'done'){
+					// return client to client pool
+					client.done();
+				}
+				else{
+					// pass client and query so that we can end client connection on query ending
+					callback(client, query);
+				}
+			}
+		})
+}
+
+function addUsers(users, client, callback){ 
+	// For adding multiple users to database at once
+	var numUsers = users.length;
+	for (var i = 0; i < numUsers; i++){
+		var user = users[i];
+		if (i === numUsers - 1){
+			addUser(user.username, user.password, user.email, client, callback)
+		}
+		else{
+			addUser(user.username, user.password, user.email, client, "done")
 		}
 	}
 
+
 }
 
-function insertAlbums(albumsAndArtists){
-	var size = Object.keys(albumsAndArtists).length;
+function insertArtists(artists, client, callback){
+	var numArtists = artists.length;
+	for (var i = 0; i < numArtists; i++){
+		if (i === numArtists - 1){
+			addArtist(artists[i], client, callback);
+		}
+		else{
+			addArtist(artists[i], client, "done");
+		}
+	}
+}
+
+function insertAlbums(albums, client, callback){
+	var numAlbums = Object.keys(albums).length;
 	var count = 0;
-	var client = getClient(db_path);
-	for (var album in albumsAndArtists) {
-		if (count === size - 1){
-			addAlbum(album, albumsAndArtists[album], client, endConnection);
-
+	for (var album in albums){
+		var artist = albums[album];
+		if (count === numAlbums - 1){
+			addAlbum(album, artist, client, callback);
 		}
 		else{
-			addAlbum(album, albumsAndArtists[album], client);
-
+			addAlbum(album,artist, client, "done");
 		}
-		count += 1;
-
+		count = count + 1;
 	}
-
 }
 
-function insertSongs(songs){
-	var client = getClient(db_path);
-	for (var i = 0; i < songs.length; i++){
-		console.log(songs[i].songName);
-		if (i == songs.length-1){
-			addSong(songs[i].songName, songs[i].artistName, songs[i].albumName, client, endConnection);
-
+function insertSongs(songs, client, callback){
+	var numSongs = songs.length;
+	for (var i = 0; i < numSongs; i++){
+		var song = songs[i];
+		if (i === numSongs - 1){
+			addSong(song.songName, song.artistName, song.albumName, client, callback);
 		}
-		else {
-			addSong(songs[i].songName, songs[i].artistName, songs[i].albumName, client);
-
+		else{
+			addSong(song.songName, song.artistName, song.albumName, client, "done");
 		}
 	}
 }
@@ -198,32 +167,18 @@ var songs = [ {songName:"Disturbia" , artistName:'Rihanna' , albumName:'Good gir
 			{songName:"Work" , artistName:'Rihanna' , albumName:"Good girl gone bad" },
 			]
 
-// insertArtists(artists);
-// insertAlbums(albums);
-// insertSongs(songs);
-var client = getClient(db_path);
-addGenre("Rap",client, function(client, query){
-	query.on("end", function(){
-		client.end();
-	});
 
-});
 
 module.exports = {
+	addUser:addUser,
 	addSong: addSong,
 	addArtist: addArtist,
 	addAlbum: addAlbum,
 	endConnection:endConnection,
 	getClient:getClient,
-	getArtistID:getArtistID,
-	getAlbumID:getAlbumID,
-	hashPassword:hashPassword
+	hashPassword:hashPassword,
+	addUsers:addUsers
 }
-
-
-
-
-
 
 
 

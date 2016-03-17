@@ -28,13 +28,12 @@ function insertSongs(songs){
 	for (var i = 0; i < songs.length; i++){
 		console.log(songs[i].songName);
 		insertOperations.addSong(songs[i].songName, songs[i].artistName, songs[i].albumName, function(client){
-			client.end();
+			client.end()
 		});
 	}
 
 }
 
-"We are never gettting back together"
 var artists = ['swift', 'perry'];
 var albums = {'Red':'swift', 'Teen age dream':'perry', '22': 'swift'}
 var songs = [ {songName:"We are never gettting back together" , artistName:'swift' , albumName:'22' }, 
@@ -47,6 +46,21 @@ var songs = [ {songName:"We are never gettting back together" , artistName:'swif
 			]
 
 
-// insertArtists(artists);
-// insertAlbums(albums);
-// insertSongs(songs);
+insertArtists(artists);
+insertAlbums(albums);
+insertSongs(songs);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

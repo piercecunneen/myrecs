@@ -3,9 +3,22 @@ var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var insertFunctions = require('./insert_operations');
 
+
+function getAllTables(client, callback){
+	var queryString = "select table_name from information_schema.tables where table_schema='public' and table_type = 'BASE TABLE'"
+	var params = [];
+	exectuteSelect(queryString, params, client, callback);
+}
+
+function getUser(username, client, callback){
+	var queryString = "SELECT username, email from users where username = $1";
+	var params = [username];
+	exectuteSelect(queryString, params, client, callback);
+}
+
 function getAlbumsByArtist(artistName, client, callback){
 
-	insertFunctions.getArtistID(artistName, client, function(artistID){
+	getArtistID(artistName, client, function(artistID){
 		if (artistID == "None"){
 			callback("None");
 
@@ -19,7 +32,7 @@ function getAlbumsByArtist(artistName, client, callback){
 }
 
 function getSongsByArtist(artistName, client, callback){
-	insertFunctions.getArtistID(artistName, client, function(artistID) {
+	getArtistID(artistName, client, function(artistID) {
 		if (artistID == "None"){
 			callback("None");
 		}
@@ -45,39 +58,78 @@ function getSongsOnAlbum(albumName, client, callback) {
 
 }
 
+function getArtistID(artistName, client, callback){
+	var query = client.query(
+		"select artistID from musicArtists where artistName = $1", [artistName]
+		, function (err, results){
+			if (err){
+				console.log(err);
+			}
+			else if (results.rows.length == 0){
+				console.log("Can't find artistID for " + artistName);
+				callback("None")
 
+			}
+			else{
 
-function exectuteSelect(queryString, params, client, callback){
-	client.query(queryString, params, 
+				callback(results.rows[0].artistid);
+			}
+		});
+}
+
+function getAlbumID(artistName,client, callback){
+	var query = client.query(
+		"select albumID from albums where albumName = $1", [artistName]
+		, function (err, results){
+			if (err){
+				console.log(err);
+			}
+			else{
+				callback(results.rows[0].albumid);
+			}
+		});
+}
+
+function exectuteSelect(queryString, params, client, callback){ // select version
+	var query = client.query(queryString, params, 
 		function(err, results){
 			if (err){
 				console.log(err);
 			}
 			else{
-				callback(results.rows)
+				if (callback === "done"){
+					callback();
+				}
+				else{
+					callback(results.rows, query)
+				}
 			}
 	});
 
 }
 
-// var client = insertFunctions.getClient(db_path);
-// getAlbumsByArtist('swifft', client, console.log);
-// getSongsByArtist('per
-// 	ry', client, function(results){
-// 	console.log(results);
-// 	client.end();
+function getAllUsers(client, callback){
+	var queryString = "SELECT username, email from users";
+	var params = [];
+	exectuteSelect(queryString, params, client, callback);
+}
 
-// });
 
-var client = insertFunctions.getClient(db_path);
-getSongInfo("Halo", client, function(results) {
-	console.log(results);
-	client.end();
-})
 
-// getSongInfo('Halo',client, function(results){
-// 	console.log(results);
-// 	client.end();
-// } )
+module.exports = {
+	getUser:getUser,
+	getAllTables:getAllTables,
+	getAlbumID: getAlbumID,
+	getArtistID:getArtistID,
+	getSongsByArtist:getSongsByArtist,
+	getAlbumsByArtist:getAlbumsByArtist,
+	getSongInfo:getSongInfo,
+	getSongsOnAlbum:getSongsOnAlbum,
+	getAllUsers:getAllUsers
+}
+
+
+
+
 
 

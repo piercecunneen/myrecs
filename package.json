@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/piercecunneen/myrecs#readme",
   "dependencies": {
+    "chai": "^3.5.0",
     "ejs": "2.4.1",
     "express": "4.13.4",
     "knex": "0.10.0",
+    "mocha": "2.4.5",
     "pg": "^4.5.1"
   },
   "engines": {

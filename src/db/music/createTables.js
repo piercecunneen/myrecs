@@ -2,26 +2,18 @@ var pg = require('pg');
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var insertFunctions = require('./insert_operations');
+var queryFunctions = require('../queries/execute_queries')
+
+var executeCreateDBQuery = queryFunctions.executeCreateDBQuery;
 
 
 function addTables(client, callback){
-	createUsers(client, "done");
 	createMusicArtistsDB(client, "done");
 	createAlbumDB(client, "done");
 	createMusicGenreDB(client, "done");
 	createArtistGenreDB(client, "done");
 	createSongDB(client, callback)
 
-}
-// insertFunctions.getClient(db_path, function(client){
-// 	addTables(client, endConnection);
-// }) 
-function createUsers(client, callback){
-	var table = "users";
-	var queryString = "CREATE TABLE " + table + "(id SERIAL PRIMARY KEY, username VARCHAR(40) not null, password UUID not null, email VARCHAR(40), isValidated BOOLEAN)";
-	var params = [];
-	executeCreateDBQuery(queryString, params, client, callback);
-	
 }
 
 function createSongDB(client, callback){
@@ -68,49 +60,16 @@ function createArtistGenreDB(client, callback){
 
 }
 
-function executeCreateDBQuery(queryString, params, client, callback){
-	var query = client.query(queryString, params, 
-		function(err, results){
-			if (err){
-				console.log(err);
-			}
-			else{
-				if (callback == "done"){
-					client.done();
-					
-				}
-				else{
-					callback(client, query);
-				}
-			}
-	});
-
-}
-
-function endConnection(client, query, callback){
-	if (typeof query === "Undefined"){
-		console.log(err);
-	}
-	else{	
-		query.on('end', function() {
-			console.log('ending connection');
-			client.end();
-		});
-	}
-}
 
 
 
 module.exports = {
 	addTables:addTables,
-	createUsers:createUsers,
 	createSongDB:createSongDB,
 	createMusicArtistsDB:createMusicArtistsDB, 
 	createAlbumDB:createAlbumDB,
 	createMusicGenreDB:createMusicGenreDB,
 	createArtistGenreDB:createArtistGenreDB,
-	executeCreateDBQuery:executeCreateDBQuery,
-	endConnection:endConnection
 }
 
 

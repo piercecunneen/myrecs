@@ -1,7 +1,10 @@
 var pg = require('pg');
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
-var insertFunctions = require('./insert_operations');
+var queryFunctions = require('../queries/execute_queries')
+
+
+var exectuteSelect = queryFunctions.exectuteSelect;
 
 
 function getAllTables(client, callback){
@@ -10,11 +13,6 @@ function getAllTables(client, callback){
 	exectuteSelect(queryString, params, client, callback);
 }
 
-function getUser(username, client, callback){
-	var queryString = "SELECT username, email from users where username = $1";
-	var params = [username];
-	exectuteSelect(queryString, params, client, callback);
-}
 
 function getAlbumsByArtist(artistName, client, callback){
 
@@ -59,22 +57,11 @@ function getSongsOnAlbum(albumName, client, callback) {
 }
 
 function getArtistID(artistName, client, callback){
-	var query = client.query(
-		"select artistID from musicArtists where artistName = $1", [artistName]
-		, function (err, results){
-			if (err){
-				console.log(err);
-			}
-			else if (results.rows.length == 0){
-				console.log("Can't find artistID for " + artistName);
-				callback("None")
-
-			}
-			else{
-
-				callback(results.rows[0].artistid);
-			}
-		});
+	var query = "select artistID from musicArtists where artistName = $1";
+	var queryParameters = [artistName];
+	exectuteSelect(query, queryParameters, client, function(rows){
+		callback(rows[0].artistid);
+	});
 }
 
 function getAlbumID(artistName,client, callback){
@@ -87,37 +74,29 @@ function getAlbumID(artistName,client, callback){
 			else{
 				callback(results.rows[0].albumid);
 			}
-		});
+		}
+		);
 }
 
-function exectuteSelect(queryString, params, client, callback){ // select version
-	var query = client.query(queryString, params, 
-		function(err, results){
-			if (err){
-				console.log(err);
-			}
-			else{
-				if (callback === "done"){
-					callback();
-				}
-				else{
-					callback(results.rows, query)
-				}
-			}
-	});
-
+function getAllArtists(client, callback){
+	var query = "select artistName from musicArtists where 1=1"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback);
 }
 
-function getAllUsers(client, callback){
-	var queryString = "SELECT username, email from users";
-	var params = [];
-	exectuteSelect(queryString, params, client, callback);
+function getAllAlbums(client, callback){
+	var query = "select albumName from albums where 1=1"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback);
 }
+
+
+
+
 
 
 
 module.exports = {
-	getUser:getUser,
 	getAllTables:getAllTables,
 	getAlbumID: getAlbumID,
 	getArtistID:getArtistID,
@@ -125,7 +104,8 @@ module.exports = {
 	getAlbumsByArtist:getAlbumsByArtist,
 	getSongInfo:getSongInfo,
 	getSongsOnAlbum:getSongsOnAlbum,
-	getAllUsers:getAllUsers
+	getAllArtists:getAllArtists,
+	getAllAlbums:getAllAlbums
 }
 
 

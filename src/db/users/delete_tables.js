@@ -2,10 +2,7 @@ var pg = require('pg');
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var client = new pg.Client(db_path);
-var insertFunctions = require('./insert_operations');
 
-tables = ['ArtistGenre','users',  'musicgenres', 'songs','albums' ,'musicartists', ];
-count = tables.length;
 
 function deleteTables(client, tables, callback){
 	if (tables.length == 0){
@@ -32,13 +29,3 @@ function deleteTables(client, tables, callback){
 module.exports = {
 	deleteTables:deleteTables
 }
-// insertFunctions.getClient(db_path, function(client){
-// 	deleteTables(client, tables, function(client){
-// 		if (client == "error"){
-// 			console.log("Something is wrong");
-// 		}
-// 		else {
-// 			client.end();
-// 		}
-// 	});
-// });

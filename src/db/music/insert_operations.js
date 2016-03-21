@@ -46,6 +46,9 @@ function addGenre(genreName, client, callback){
 	executeInsertQuery(queryString, queryParameters, client, callback);
 }
 
+function addArtistGenrePair(genreName, artistName, client, callback){
+	
+}
 
 
 
@@ -63,17 +66,17 @@ function insertArtists(artists, client, callback){
 }
 
 function insertAlbums(albums, client, callback){
-	var numAlbums = Object.keys(albums).length;
-	var count = 0;
-	for (var album in albums){
-		var artist = albums[album];
-		if (count === numAlbums - 1){
+	var numAlbums = albums.length;
+	for (var i = 0; i < numAlbums; i++){
+		var album = albums[i];
+		var artist = album["artistName"];
+		var album = album["albumName"]
+		if (i === numAlbums - 1){
 			addAlbum(album, artist, client, callback);
 		}
 		else{
 			addAlbum(album,artist, client, "done");
 		}
-		count = count + 1;
 	}
 }
 

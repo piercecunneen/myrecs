@@ -98,11 +98,11 @@ function getAllSongs(client, callback){
 	exectuteSelect(query, queryParameters, client, callback);
 }
 
-function getAllGenres(client, callback){
-	var query = "select genreName from musicGenres"
-	var queryParameters = [];
-	exectuteSelect(query, queryParameters, client, callback); 
-}
+// function getAllGenres(client, callback){
+// 	var query = "select genreName from musicGenres"
+// 	var queryParameters = [];
+// 	exectuteSelect(query, queryParameters, client, callback); 
+// }
 
 
 

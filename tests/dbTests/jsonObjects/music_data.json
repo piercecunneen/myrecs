@@ -1,0 +1,33 @@
+{
+    "tables": [
+        {"tableName":"ArtistGenre"},
+        {"tableName":"musicgenres"},
+        {"tableName":"songs"},
+        {"tableName":"albums"},
+        {"tableName":"musicartists"}
+    ],
+    "albums": [
+        {"albumName": "Red", "artistName": "swift"},
+        {"albumName": "Teen age dream", "artistName": "perry"},
+        {"albumName": "22", "artistName": "swift"},
+        {"albumName": "Loud", "artistName": "Rihanna"},
+        {"albumName": "Dangerously in Love", "artistName": "Beyonce"},
+        {"albumName": "Good girl gone bad", "artistName": "Rihanna"}
+    ],
+    "songs": [
+        {"songName":"Disturbia" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
+        {"songName":"S&M" , "artistName":"Rihanna" , "albumName":"Loud" },
+        {"songName":"If I were a boy" , "artistName":"Beyonce" , "albumName":"Dangerously in Love" },
+        {"songName":"Halo" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
+        {"songName":"Diamonds" , "artistName":"Rihanna" , "albumName":"Loud" },
+        {"songName":"Listen" , "artistName":"Beyonce" , "albumName":"Dangerously in Love" },
+        {"songName":"Work" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
+        {"songName":"We are never gettting back together" , "artistName":"swift" , "albumName":"22" },
+        {"songName":"Red" , "artistName":"swift" , "albumName":"Red" },
+        {"songName":"E.T." , "artistName":"perry" , "albumName":"Teen age dream" },
+        {"songName":"California girls" , "artistName":"perry" , "albumName":"Teen age dream" },
+        {"songName":"mean" , "artistName":"swift" , "albumName":"22" },
+        {"songName":"fireworks" , "artistName":"perry" , "albumName":"Teen age dream" },
+        {"songName":"Shake it off" , "artistName":"swift" , "albumName":"22" }
+    ]
+}

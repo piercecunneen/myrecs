@@ -10,28 +10,7 @@ var insertFunctions = require(userDB + 'insert_operations');
 var selectFunctions = require(userDB + 'select_operations');
 var createTables = require(userDB + 'createTables');
 var deleteTables = require(userDB + 'delete_tables').deleteTables;
-
-function endConnection(client, query){
-	query.on('end', function() {
-		console.log('ending connection');
-		client.end();
-	});
-}
-
-
-
-function getClient(db_path, callback){
-	pg.connect(db_path, function(err, client, done){
-		if (err){
-			console.log(err);
-		}
-		else{
-			client.done = done; // allow for client to be passed around while allowing for client to be returned to client pool
-			callback(client);
-		}
-	});
-}
-
+var getClient = require("../../src/db/client/get_client").getClient;
 
 tables = ['users'];
 

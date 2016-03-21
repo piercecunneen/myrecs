@@ -47,15 +47,6 @@ function addGenre(genreName, client, callback){
 }
 
 
-function endConnection(client, query){
-	query.on('end', function() {
-		console.log('ending connection');
-		client.end();
-	});
-}
-
-
-
 
 
 
@@ -99,25 +90,25 @@ function insertSongs(songs, client, callback){
 	}
 }
 
-var artists = ['Rihanna', 'Beyonce'];
-var albums = {'Loud':'swift', 'Dangerously in Love':'perry', 'Good girl gone bad': 'swift'};
-var songs = [ {songName:"Disturbia" , artistName:'Rihanna' , albumName:'Good girl gone bad' }, 
-			{songName: 'S&M', artistName:'Rihanna' , albumName:'Loud' },
-			{songName: "If I were a boy", artistName:'Beyonce' , albumName:"Dangerously in Love"  },
-			{songName:"Halo" , artistName:'Beyonce' , albumName:"Dangerously in Love" },
-			{songName:"Diamonds" , artistName:'Rihanna' , albumName: "Loud"},
-			{songName: "Listen", artistName: 'Beyonce', albumName: "Dangerously in Love" },
-			{songName:"Work" , artistName:'Rihanna' , albumName:"Good girl gone bad" },
-			];
+function insertGenres(genres, client, callback){
+	var numGenres = genres.length;
+	for (var i = 0; i < numGenres; i++){
+		if (i === numGenres - 1){
+			addGenre(genres[i], client, callback);
+		}
+		else{
+			addGenre(genres[i], client, "done");
+		}
+	}
+}
 
-// getClient(db_path, function(client){
-// 	insertAlbums(albums, client, endConnection);
-// })
+
 
 module.exports = {
 	insertArtists:insertArtists,
 	insertSongs:insertSongs,
-	insertAlbums:insertAlbums
+	insertAlbums:insertAlbums,
+	insertGenres:insertGenres
 
 };
 

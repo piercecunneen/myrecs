@@ -45,7 +45,9 @@ function getSongsByArtist(artistName, client, callback){
 function getSongInfo(songName, client, callback){
 	var queryString = "SELECT albums.albumName, musicArtists.artistName, musicArtists.artistID, albums.albumID from songs INNER JOIN musicArtists on songs.artistID = musicArtists.artistID JOIN albums on albums.albumID = songs.albumID WHERE songs.songTitle = $1";
 	var params = [songName];
-	exectuteSelect(queryString, params, client, callback);
+	exectuteSelect(queryString, params, client, function(results){
+		callback(results, songName);
+	});
 }
 
 
@@ -79,19 +81,28 @@ function getAlbumID(artistName,client, callback){
 }
 
 function getAllArtists(client, callback){
-	var query = "select artistName from musicArtists where 1=1"
+	var query = "select artistName from musicArtists"
 	var queryParameters = [];
 	exectuteSelect(query, queryParameters, client, callback);
 }
 
 function getAllAlbums(client, callback){
-	var query = "select albumName from albums where 1=1"
+	var query = "select albumName from albums"
 	var queryParameters = [];
 	exectuteSelect(query, queryParameters, client, callback);
 }
 
+function getAllSongs(client, callback){
+	var query = "select songTitle from songs"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback);
+}
 
-
+function getAllGenres(client, callback){
+	var query = "select genreName from musicGenres"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback); 
+}
 
 
 
@@ -105,8 +116,11 @@ module.exports = {
 	getSongInfo:getSongInfo,
 	getSongsOnAlbum:getSongsOnAlbum,
 	getAllArtists:getAllArtists,
-	getAllAlbums:getAllAlbums
+	getAllAlbums:getAllAlbums,
+	getAllSongs:getAllSongs,
+	getAllGenres:getAllGenres
 }
+
 
 
 

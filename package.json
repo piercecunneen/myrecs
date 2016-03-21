@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/piercecunneen/myrecs#readme",
   "dependencies": {
+    "async": "^1.5.2",
     "chai": "^3.5.0",
     "ejs": "2.4.1",
     "express": "4.13.4",

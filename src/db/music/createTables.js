@@ -42,10 +42,10 @@ function createAlbumDB(client, callback){
 }
 function createMusicGenreDB(client, callback){
 	var table = "MusicGenres";
-	var queryString = "CREATE TABLE " + table + "(genreID SERIAL PRIMARY KEY, musicGenreName VARCHAR(40))";
+	var queryString = "CREATE TABLE " + table + "(genreID SERIAL PRIMARY KEY, genreName VARCHAR(40))";
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, function(){
-		queryString = "CREATE Unique Index on " + table + "(musicGenreName) ";
+		queryString = "CREATE Unique Index on " + table + "(genreName) ";
 		executeCreateDBQuery(queryString, params, client, callback);
 
 	});

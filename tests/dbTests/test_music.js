@@ -27,12 +27,11 @@ var numSongs = songs.length;
 var genres = JsonMusicData.genres;
 var genreArtistPairs = JsonMusicData["genre-artist"];
 
-
 describe('Create tables', function() {
 	var numTables = tables.length;
 	it('should create ' + numTables + ' databases', function(done) {
 		getClient(db_path, function(client){
-			createTables.addTables(client, function(){
+			createTables.addTables(client,  function(){
 				selectFunctions.getAllTables(client, function(results){
 					assert.equal(results.length, numTables, "Expected " + numTables + " tables");
 					done()
@@ -69,21 +68,28 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert songs into table", function(done){
 		insertFunctions.insertSongs(songs, cl, function(){
 			selectFunctions.getAllSongs(cl, function(results){
+				// console.log("SONGS");
 				assert.equal(results.length, numSongs, "Expected " + numSongs + " artists");
 				done()
 			});
 		});
 	});
-	it("should insert genres into table",function(){
+	it("should insert genres into table",function(done){
 		insertFunctions.insertGenres(genres, cl, function(){
 			selectFunctions.getAllGenres(cl, function(results){
 				assert.equal(results.length, genres.length, "Expected " + genres.length + " artists");
+				done();
 			});
 		});
 	});
-	// it("should insert genre-artist pairs", function(){
-	// 	insertFunctions.insertGereArtistPairs()
-	// })
+	it("should insert genre-artist pairs", function(done){
+		insertFunctions.insertArtistGenrePairs(genreArtistPairs, cl, function(){
+			selectFunctions.getAllArtistGenres(cl, function(results){
+				assert.equal(results.length, results.length, "Expected " +  genreArtistPairs.length + " artist genre pairs");
+				done();
+			});
+		})
+	})
 });
 
 describe('Select and Check for data in music DB', function(){
@@ -101,6 +107,7 @@ describe('Select and Check for data in music DB', function(){
 				assert.equal(result[0].albumname, song.albumName, "album name incorrect");
 				callback();
 			});
+
 		}, function (err){ // called after to finish 'it' block
 			if (err) console.log(err);
 			done();

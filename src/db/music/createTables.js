@@ -54,7 +54,7 @@ function createMusicGenreDB(client, callback){
 
 function createArtistGenreDB(client, callback){
 	var table = "ArtistGenre";
-	var queryString = "CREATE TABLE " + table + "(musicGenre int REFERENCES MusicGenres(genreID), artistID int REFERENCES musicArtists(artistID))";
+	var queryString = "CREATE TABLE " + table + "(musicGenreID int REFERENCES MusicGenres(genreID), artistID int REFERENCES musicArtists(artistID))";
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
 

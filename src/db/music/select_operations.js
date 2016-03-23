@@ -80,6 +80,14 @@ function getAlbumID(artistName,client, callback){
 		);
 }
 
+function getGenreID(genre, client, callback){
+	var query = "select genreID from MusicGenres where genreName = $1";
+	var queryParameters = [genre];
+	exectuteSelect(query, queryParameters, client, function(rows){
+		callback(rows[0].genreid);
+	});
+}
+
 function getAllArtists(client, callback){
 	var query = "select artistName from musicArtists"
 	var queryParameters = [];
@@ -98,12 +106,17 @@ function getAllSongs(client, callback){
 	exectuteSelect(query, queryParameters, client, callback);
 }
 
-// function getAllGenres(client, callback){
-// 	var query = "select genreName from musicGenres"
-// 	var queryParameters = [];
-// 	exectuteSelect(query, queryParameters, client, callback); 
-// }
+function getAllGenres(client, callback){
+	var query = "select genreName from musicGenres"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback);
+}
 
+function getAllArtistGenres(client, callback){
+	var query = "select musicGenreID from ArtistGenre"
+	var queryParameters = [];
+	exectuteSelect(query, queryParameters, client, callback);
+}
 
 
 
@@ -118,12 +131,7 @@ module.exports = {
 	getAllArtists:getAllArtists,
 	getAllAlbums:getAllAlbums,
 	getAllSongs:getAllSongs,
-	getAllGenres:getAllGenres
+	getAllGenres:getAllGenres,
+	getGenreID:getGenreID,
+	getAllArtistGenres:getAllArtistGenres
 }
-
-
-
-
-
-
-

@@ -20,7 +20,7 @@ function executeInsertQuery(queryString, queryParameters, client, callback){ // 
 }
 
 function executeCreateDBQuery(queryString, params, client, callback){
-	var query = client.query(queryString, params, 
+	var query = client.query(queryString, params,
 		function(err, results){
 			if (err){
 				console.log(err);
@@ -28,7 +28,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 			else{
 				if (callback == "done"){
 					client.done();
-					
+
 				}
 				else{
 					callback(client, query);
@@ -40,7 +40,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 
 function exectuteSelect(queryString, params, client, callback){ // select version
 
-	var query = client.query(queryString, params, 
+	var query = client.query(queryString, params,
 		function(err, results){
 			if (err){
 				console.log(err);

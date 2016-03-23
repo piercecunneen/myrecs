@@ -25,17 +25,17 @@ function addAlbum (albumTitle, artistName, client, callback) {
 	selectFunctions.getArtistID(artistName, client, function(artistID){
 		var queryString = "insert into albums values (DEFAULT, $1, $2)";
 		var queryParameters = [albumTitle, artistID];
-		executeInsertQuery(queryString, queryParameters, client, callback); 
-	});	
+		executeInsertQuery(queryString, queryParameters, client, callback);
+	});
 }
 
 
 function addSong(songTitle, artistName, albumName, client, callback){
 	selectFunctions.getArtistID(artistName, client,function(artistID){
 		selectFunctions.getAlbumID(albumName, client,function(albumID) {
-			var queryString ="insert into songs values (DEFAULT, $1, $2, $3) RETURNING songid"; 
+			var queryString ="insert into songs values (DEFAULT, $1, $2, $3) RETURNING songid";
 			var queryParameters = [songTitle, artistID, albumID];
-			executeInsertQuery(queryString, queryParameters, client, callback);				
+			executeInsertQuery(queryString, queryParameters, client, callback);
 		});
 	});
 }
@@ -47,7 +47,14 @@ function addGenre(genreName, client, callback){
 }
 
 function addArtistGenrePair(genreName, artistName, client, callback){
-	
+	selectFunctions.getArtistID(artistName, client, function(artistID){
+		selectFunctions.getGenreID(genreName, client, function(genreID){
+			var queryString = "INSERT into artistgenre values ($1 ,$2)";
+			var queryParameters = [genreID, artistID];
+			executeInsertQuery(queryString, queryParameters, client, callback);
+		});
+
+	});
 }
 
 
@@ -105,16 +112,28 @@ function insertGenres(genres, client, callback){
 	}
 }
 
+function insertArtistGenrePairs(genreArtistPairs, client, callback){
+	var numGenrePairs = genreArtistPairs.length;
+	for (var i = 0; i < numGenrePairs; i++){
+		var genre = genreArtistPairs[i].genre;
+		var artist = genreArtistPairs[i].artist;
+		if (i === numGenrePairs - 1){
+			addArtistGenrePair(genre, artist,client, callback);
+		}
+		else{
+			addArtistGenrePair(genre, artist,client, "done");
+		}
+
+	}
+}
+
 
 
 module.exports = {
 	insertArtists:insertArtists,
 	insertSongs:insertSongs,
 	insertAlbums:insertAlbums,
-	insertGenres:insertGenres
+	insertGenres:insertGenres,
+	insertArtistGenrePairs:insertArtistGenrePairs
 
 };
-
-
-
-

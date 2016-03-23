@@ -4,7 +4,7 @@ var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name
 var client = new pg.Client(db_path);
 var insertFunctions = require('./insert_operations');
 
-tables = ['ArtistGenre',  'musicgenres', 'songs','albums' ,'musicartists', ];
+tables = ['ArtistGenre',  'musicgenres', 'songs','albums' ,'musicartists' ];
 count = tables.length;
 
 function deleteTables(client, tables, callback){

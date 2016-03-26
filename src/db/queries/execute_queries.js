@@ -24,7 +24,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 	var query = client.query(queryString, params,
 		function(err, results){
 			if (err){
-				console.log(err);
+				console.log(queryString);
 				callback("Error");
 			}
 			else{

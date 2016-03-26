@@ -9,7 +9,7 @@ var bookDB = "../../src/db/books/"
 var selectFunctions = require(bookDB + 'select_operations');
 var deleteTables = require(bookDB + 'delete_tables').deleteTables;
 var createTables = require(bookDB + 'create_tables');
-// var insertFunctions = require(bookDB + 'insert_operations');
+var insertFunctions = require(bookDB + 'insert_operations');
 var getClient = require("../../src/db/client/get_client").getClient;
 
 var JsonBookData = require('./jsonObjects/book_data.json');
@@ -19,7 +19,6 @@ var tables = JsonBookData.tables;
 
 describe("Create book tables", function(){
     var numTables = tables.length;
-
     it("should create " + numTables + " tables", function (done){
         getClient(db_path, function(client){
             createTables.addTables(client, function(){
@@ -31,6 +30,8 @@ describe("Create book tables", function(){
         });
     });
 });
+
+
 
 
 describe("Destroy book tables", function(){

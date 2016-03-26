@@ -4,7 +4,6 @@ var assert = chai.assert;
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var async = require('async');
-var JsonMusicData = require('./jsonObjects/music_data.json');
 
 
 
@@ -17,6 +16,7 @@ var insertFunctions = require(musicDB + 'insert_operations');
 var getClient = require("../../src/db/client/get_client").getClient;
 
 
+var JsonMusicData = require('./jsonObjects/music_data.json');
 
 var tables = JsonMusicData.tables;
 var artists = JsonMusicData.artists;
@@ -34,7 +34,7 @@ describe('Create tables', function() {
 			createTables.addTables(client,  function(){
 				selectFunctions.getAllTables(client, function(results){
 					assert.equal(results.length, numTables, "Expected " + numTables + " tables");
-					done()
+					done();
 				});
 			});
 		});
@@ -50,10 +50,11 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 			done();
 		})
 	})
-	it("should insert artists into table", function(){
+	it("should insert artists into table", function(done){
 		insertFunctions.insertArtists(artists, cl, function(){
 			selectFunctions.getAllArtists(cl, function(results){
 				assert.equal(results.length, artists.length, "Expected " + artists.length + " artists");
+				done();
 			});
 		});
 	});
@@ -114,7 +115,6 @@ describe('Select and Check for data in music DB', function(){
 		});
 
 	});
-
 });
 
 
@@ -125,7 +125,7 @@ describe("Delete all tables", function(){ // keep as last test to delete tables
 				selectFunctions.getAllTables(client, function(results){
 					assert.equal(results.length, 0, "Expected 0 tables");
 					client.end();
-					done()
+					done();
 				});
 			});
 		});

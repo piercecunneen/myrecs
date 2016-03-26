@@ -1,7 +1,6 @@
 var pg = require('pg');
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
-var insertFunctions = require('./insert_operations');
 var queryFunctions = require('../queries/execute_queries')
 
 var executeCreateDBQuery = queryFunctions.executeCreateDBQuery;
@@ -21,7 +20,7 @@ function createSongDB(client, callback){
 	var queryString = "CREATE TABLE " + table + "(songID SERIAL PRIMARY KEY, songTitle VARCHAR(50) not null, artistID int REFERENCES musicArtists (artistID),  albumID int REFERENCES Albums (albumID))";
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
-	
+
 }
 
 function createMusicArtistsDB(client, callback){
@@ -49,7 +48,7 @@ function createMusicGenreDB(client, callback){
 		executeCreateDBQuery(queryString, params, client, callback);
 
 	});
-	
+
 }
 
 function createArtistGenreDB(client, callback){
@@ -66,11 +65,8 @@ function createArtistGenreDB(client, callback){
 module.exports = {
 	addTables:addTables,
 	createSongDB:createSongDB,
-	createMusicArtistsDB:createMusicArtistsDB, 
+	createMusicArtistsDB:createMusicArtistsDB,
 	createAlbumDB:createAlbumDB,
 	createMusicGenreDB:createMusicGenreDB,
 	createArtistGenreDB:createArtistGenreDB,
 }
-
-
-

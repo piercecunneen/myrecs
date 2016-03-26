@@ -1,0 +1,15 @@
+{
+    "tables": ["bookGenrePair","Books", "bookGenre","Authors"],
+
+    "authors": ["George R Martin", "Veronica Roth", "J. K. Rowling"],
+
+    "genres": ["Science Fiction", "Fantasy", "Drama", "Murder Mystery", "Thriller"],
+
+    "books": [
+        {"title": "Game of Thrones", "author": "George R Martin", "genre": "Fantasy"},
+        {"title": "Harry Potter", "author": "J. K. Rowling", "genre": "Fantasy"},
+        {"title": "Divergent", "author":"Veronica Roth", "genre": "Science Fiction"}
+
+    ]
+
+}

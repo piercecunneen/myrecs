@@ -5,6 +5,7 @@ function executeInsertQuery(queryString, queryParameters, client, callback){ // 
 		function(err, results) {
 			if (err){
 				console.log(err);
+				callback("Error");
 			}
 			else{
 				if (callback == 'done'){
@@ -24,6 +25,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 		function(err, results){
 			if (err){
 				console.log(err);
+				callback("Error");
 			}
 			else{
 				if (callback == "done"){
@@ -44,6 +46,7 @@ function exectuteSelect(queryString, params, client, callback){ // select versio
 		function(err, results){
 			if (err){
 				console.log(err);
+				callback("Error");
 			}
 			else{
 				if (callback === "done"){

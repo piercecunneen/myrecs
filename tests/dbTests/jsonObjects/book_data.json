@@ -1,5 +1,5 @@
 {
-    "tables": ["bookGenrePairs","Books", "bookGenres","Authors"],
+    "tables": ["Books", "bookGenres","Authors"],
 
     "authors": [
         {"name" :"George R Martin"},

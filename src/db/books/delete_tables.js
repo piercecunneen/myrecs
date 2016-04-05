@@ -5,21 +5,6 @@ var client = new pg.Client(db_path);
 
 
 function deleteTables(client, tables, callback){
-	// if (tables.length == 0){
-	// 	callback(client);
-	// }
-	// else{
-	// 	var queryString = 'drop table ' + tables[0];
-	// 	var query = client.query(queryString);
-	//
-	// 	query.on('end', function () {
-	// 		deleteTables(client, tables.slice(1), callback);
-	//
-	// 	});
-	// 	query.on('error', function (error){
-	// 		callback("error");
-	// 	});
-	// }
 	var queryString = "drop table ";
 	for (var i = 0; i < tables.length; i++){
 		if (i == tables.length - 1){

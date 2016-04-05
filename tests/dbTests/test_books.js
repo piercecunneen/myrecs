@@ -44,12 +44,27 @@ describe("Insert books, authors, and genres", function(){
     it('should insert genres into db', function(done){
         insertFunctions.insertGenres(genres, cl, function(){
             selectFunctions.getAllGenres(cl, function(results){
-                assert.equal(results.length, genres.length, "Expected ")
+                assert.equal(results.length, genres.length, "Expected to insert " + genres.length + " genres")
                 done();
-            })
-        })
-    })
-
+            });
+        });
+    });
+    it('should insert authors into db', function(done){
+        insertFunctions.insertAuthors(authors, cl, function(){
+            selectFunctions.getAllAuthors(cl, function(results){
+                assert.equal(results.length, authors.length, "Expected to insert " + authors.length +  " authors")
+                done();
+            });
+        });
+    });
+    it('should insert books into db', function(done){
+        insertFunctions.insertBooks(books, cl, function(){
+            selectFunctions.getAllBooks(cl, function(results){
+                assert.equal(results.length, books.length, "Expected to insert " + books.length +  "books")
+                done();
+            });
+        });
+    });
 });
 
 

@@ -18,15 +18,35 @@ function getAllGenres(client, callback){
 	exectuteSelect(queryString, queryParameters, client, callback);
 }
 
+function getAllAuthors(client, callback){
+	var queryString = "select name from Authors";
+	var queryParameters = [];
+	exectuteSelect(queryString, queryParameters, client, callback);
+}
+
+function getAllBooks(client, callback){
+	var queryString = "select title from Books";
+	var queryParameters = [];
+	exectuteSelect(queryString, queryParameters, client, callback);
+}
+
+function getAllBookGenrePairs(client, callback){
+	var queryString = "select genreID from bookGenrePairs";
+	var queryParameters = [];
+	exectuteSelect(queryString, queryParameters, client, callback);
+
+}
+
+
 function getGenreID(genreName, client, callback){
 	var queryString = "select genreID from bookGenres where name = $1";
 	var queryParameters = [genreName];
 	exectuteSelect(queryString, queryParameters, client, function(results){
-		if (rows == "Error"){
+		if (results == "Error"){
 			callback("Error");
 		}
 		else{
-			callback(rows[0].genreid);
+			callback(results[0].genreid);
 		}
 	});
 
@@ -34,13 +54,13 @@ function getGenreID(genreName, client, callback){
 
 function getAuthorID(authorName, client, callback){
 	var queryString = "select authorID from Authors where name = $1";
-	var queryParameters = [genreName];
+	var queryParameters = [authorName];
 	exectuteSelect(queryString, queryParameters, client, function(results){
-		if (rows == "Error"){
+		if (results == "Error"){
 			callback("Error");
 		}
 		else{
-			callback(rows[0].authorid);
+			callback(results[0].authorid);
 		}
 	});
 }
@@ -52,5 +72,9 @@ module.exports = {
     getAllTables:getAllTables,
 	getGenreID:getGenreID,
 	getAuthorID:getAuthorID,
-	getAllGenres:getAllGenres
+	getAllGenres:getAllGenres,
+	getAllAuthors:getAllAuthors,
+	getAllBooks:getAllBooks,
+	getAllBookGenrePairs:getAllBookGenrePairs
+
 }

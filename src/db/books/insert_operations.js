@@ -31,18 +31,13 @@ function addBook(book, client, callback){
             if (authorID == "Error"){
                 callback("Error");
             }
-            queryString = "Insert into Books values (DEFAULT, $1, $2, $3)";
+            queryString = "Insert into Books values (DEFAULT, $1, $2, $3) RETURNING bookID";
             queryParameters = [book.title, authorID, genreID];
             executeInsertQuery(queryString, queryParameters, client, callback);
         });
     });
 }
 
-function addGenreBookPair(bookGenrePair){
-    queryString = "Insert into bookGenrePair values ($1, $2)";
-    queryParameters = [bookGenrePair.genreid, bookGenrePair.bookid];
-    executeInsertQuery(queryString, queryParameters, client, callback);
-}
 
 
 function insertBooks(books, client, callback){

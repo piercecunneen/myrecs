@@ -14,7 +14,7 @@ function executeInsertQuery(queryString, queryParameters, client, callback){ // 
 				}
 				else{
 					// pass client and query so that we can end client connection on query ending
-					callback(client, query);
+					callback(client, query, results.rows);
 				}
 			}
 		})

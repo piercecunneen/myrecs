@@ -9,8 +9,7 @@ var executeCreateDBQuery = queryFunctions.executeCreateDBQuery;
 function addTables(client, callback){
     addBookGenreDB(client, "done");
     addAuthorDB(client, "done");
-    addBookDB(client, "done");
-    addBookGenrePairDB(client, callback);
+    addBookDB(client, callback);
 }
 
 
@@ -35,17 +34,10 @@ function addBookGenreDB(client, callback){
     executeCreateDBQuery(queryString, queryParameters, client, callback);
 }
 
-function addBookGenrePairDB(client, callback){
-    var table = "bookGenrePairs";
-    var queryString = "CREATE table " + table + "(genreID int REFERENCES bookGenres(genreID), bookID int REFERENCES Books(bookID))";
-    var queryParameters = [];
-    executeCreateDBQuery(queryString, queryParameters, client, callback);
-}
 
 module.exports = {
     addTables:addTables,
     addBookDB:addBookDB,
     addAuthorDB:addAuthorDB,
     addBookGenreDB:addBookGenreDB,
-    addBookGenrePairDB:addBookGenrePairDB
 }

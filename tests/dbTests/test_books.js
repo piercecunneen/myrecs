@@ -14,7 +14,9 @@ var getClient = require("../../src/db/client/get_client").getClient;
 
 var JsonBookData = require('./jsonObjects/book_data.json');
 var tables = JsonBookData.tables;
-
+var authors = JsonBookData.authors;
+var books = JsonBookData.books;
+var genres = JsonBookData.genres
 
 
 describe("Create book tables", function(){
@@ -31,6 +33,24 @@ describe("Create book tables", function(){
     });
 });
 
+describe("Insert books, authors, and genres", function(){
+    var cl;
+	before(function(done){
+		getClient(db_path, function(client){
+			cl = client;
+			done();
+		});
+	});
+    it('should insert genres into db', function(done){
+        insertFunctions.insertGenres(genres, cl, function(){
+            selectFunctions.getAllGenres(cl, function(results){
+                assert.equal(results.length, genres.length, "Expected ")
+                done();
+            })
+        })
+    })
+
+});
 
 
 

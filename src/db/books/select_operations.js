@@ -12,6 +12,12 @@ function getAllTables(client, callback){
 	exectuteSelect(queryString, queryParameters, client, callback);
 }
 
+function getAllGenres(client, callback){
+	var queryString = "select name from bookGenres";
+	var queryParameters = [];
+	exectuteSelect(queryString, queryParameters, client, callback);
+}
+
 function getGenreID(genreName, client, callback){
 	var queryString = "select genreID from bookGenres where name = $1";
 	var queryParameters = [genreName];
@@ -45,5 +51,6 @@ function getAuthorID(authorName, client, callback){
 module.exports = {
     getAllTables:getAllTables,
 	getGenreID:getGenreID,
-	getAuthorID:getAuthorID
+	getAuthorID:getAuthorID,
+	getAllGenres:getAllGenres
 }

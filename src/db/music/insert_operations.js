@@ -60,8 +60,39 @@ function addArtistGenrePair(genreName, artistName, client, callback){
 function addUserSongLike(username, songTitle, client, callback){
 	getUser(username, client, function(userData) {
 		selectFunctions.getSongID(songTitle, client, function(songID){
-			queryString = "INSERT into UserSongLikes values ($1, $2)";
-			queryParameters = [userData.id, songID];
+			queryString = "INSERT into UserSongLikes values ($1, $2, CURRENT_DATE)";
+			queryParameters = [userData[0].id, songID];
+
+			executeInsertQuery(queryString, queryParameters, client, callback);
+		});
+	});
+}
+
+function addUserAlbumLike(username, albumTitle, client, callback){
+	getUser(username, client, function(userData) {
+		selectFunctions.getAlbumID(albumTitle, client, function(albumID){
+			queryString = "INSERT into UserAlbumLikes values ($1, $2, CURRENT_DATE)";
+			queryParameters = [userData[0].id, albumID];
+			executeInsertQuery(queryString, queryParameters, client, callback);
+		});
+	});
+}
+function addUserArtistLike(username, artist, client, callback){
+	getUser(username, client, function(userData) {
+		selectFunctions.getArtistID(artist, client, function(artistID){
+			queryString = "INSERT into UserArtistLikes values ($1, $2, CURRENT_DATE)";
+			queryParameters = [userData[0].id, artistID];
+
+			executeInsertQuery(queryString, queryParameters, client, callback);
+		});
+	});
+}
+function addUserGenreLike(username, genre, client, callback){
+	getUser(username, client, function(userData) {
+		selectFunctions.getGenreID(genre, client, function(genreID){
+			queryString = "INSERT into UserGenreLikes values ($1, $2, CURRENT_DATE)";
+			queryParameters = [userData[0].id, genreID];
+
 			executeInsertQuery(queryString, queryParameters, client, callback);
 		});
 	});
@@ -144,6 +175,11 @@ module.exports = {
 	insertSongs:insertSongs,
 	insertAlbums:insertAlbums,
 	insertGenres:insertGenres,
-	insertArtistGenrePairs:insertArtistGenrePairs
+	insertArtistGenrePairs:insertArtistGenrePairs,
+	addUserSongLike:addUserSongLike,
+	addUserAlbumLike:addUserAlbumLike,
+	addUserGenreLike:addUserGenreLike,
+	addUserArtistLike:addUserArtistLike
+
 
 };

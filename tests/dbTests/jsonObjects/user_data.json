@@ -6,12 +6,51 @@
     ],
     "tables":  [
         "users"
+    ],
+    "userSongLikes": [
+        {"username": "pcunneen", "songTitle": "Red"},
+        {"username": "pcunneen", "songTitle": "We are never gettting back together"},
+        {"username": "pcunneen", "songTitle": "California girls"},
+        {"username": "pcunneen", "songTitle": "S&M"},
+        {"username": "pcunneen", "songTitle": "Listen"},
+        {"username": "DeBaker", "songTitle": "Diamonds"},
+        {"username": "DeBaker", "songTitle": "Shake it off"},
+        {"username": "DeBaker", "songTitle": "Disturbia"},
+        {"username": "Zjanicki", "songTitle": "fireworks"},
+        {"username": "Zjanicki", "songTitle": "mean"},
+        {"username": "Zjanicki", "songTitle": "Listen"},
+        {"username": "Zjanicki", "songTitle": "We are never gettting back together"},
+        {"username": "Zjanicki", "songTitle": "Red"}
+    ],
+    "userAlbumLikes": [
+        {"username": "pcunneen", "albumTitle": "Red"},
+        {"username": "pcunneen", "albumTitle": "Dangerously in Love"},
+        {"username": "pcunneen", "albumTitle": "Loud"},
+        {"username": "DeBaker", "albumTitle": "Dangerously in Love"},
+        {"username": "DeBaker", "albumTitle": "Good girl gone bad"},
+        {"username": "DeBaker", "albumTitle": "22"},
+        {"username": "Zjanicki", "albumTitle": "22"},
+        {"username": "Zjanicki", "albumTitle": "Loud"}
+    ],
+    "userArtistLikes": [
+        {"username": "pcunneen", "artist": "Swift"},
+        {"username": "pcunneen", "artist": "Rihanna"},
+        {"username": "pcunneen", "artist": "Beyonce"},
+        {"username": "DeBaker", "artist": "Perry"},
+        {"username": "DeBaker", "artist": "Beyonce"},
+        {"username": "DeBaker", "artist": "Rihanna"},
+        {"username": "Zjanicki", "artist": "Rihanna"},
+        {"username": "Zjanicki", "artist": "Swift"}
+
+    ],
+    "userGenreLikes": [
+        {"username": "pcunneen", "genreTitle": "Country"},
+        {"username": "pcunneen", "genreTitle": "Pop"},
+        {"username": "pcunneen", "genreTitle": "HipHop"},
+        {"username": "DeBaker", "genreTitle": "Rap"},
+        {"username": "DeBaker", "genreTitle": "R&B"},
+        {"username": "DeBaker", "genreTitle": "Pop"},
+        {"username": "Zjanicki", "genreTitle": "Country"},
+        {"username": "Zjanicki", "genreTitle": "Pop"}
     ]
-
-
-
-
-
-
-
 }

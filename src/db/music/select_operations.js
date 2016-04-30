@@ -155,5 +155,6 @@ module.exports = {
 	getAllSongs:getAllSongs,
 	getAllGenres:getAllGenres,
 	getGenreID:getGenreID,
-	getAllArtistGenres:getAllArtistGenres
+	getAllArtistGenres:getAllArtistGenres,
+	getSongID:getSongID
 }

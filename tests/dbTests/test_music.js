@@ -8,7 +8,9 @@ const util = require('util');
 
 
 var userDB = "../../src/db/users/"
-var createUserDB  = require(userDB + 'createTables');
+var createUsers  = require(userDB + 'createTables').addTables;
+
+var addUsers = require(userDB + "insert_operations").addUsers;
 
 
 var musicDB = "../../src/db/music/"
@@ -20,6 +22,7 @@ var getClient = require("../../src/db/client/get_client").getClient;
 
 
 var JsonMusicData = require('./jsonObjects/music_data.json');
+var JsonUserData = require('./jsonObjects/user_data.json');
 
 var tables = JsonMusicData.tables;
 var artists = JsonMusicData.artists;
@@ -31,6 +34,13 @@ var genres = JsonMusicData.genres;
 var genreArtistPairs = JsonMusicData["genre-artist"];
 userTable = ['users'];
 
+users = JsonUserData.users;
+userSongLikes = JsonUserData.userSongLikes;
+userAlbumLikes = JsonUserData.userAlbumLikes;
+userArtistLikes = JsonUserData.userArtistLikes;
+userGenreLikes = JsonUserData.userGenreLikes;
+
+
 var allTables =  userTable.concat(tables)
 
 
@@ -39,17 +49,16 @@ describe('Create tables', function() {
 	before(function(done){
 		getClient(db_path, function(client){
 			cl = client;
-			createUserDB.addTables(cl,  function(){
-				done();
+			createUsers(cl,  function(){
+				addUsers(users, cl, function() {
+					done();
+				})
 			});
-
-
-
 		});
 	});
 
 	var numTables = tables.length;
-	it(util.format('should create %d databases'), function(done) {
+	it(util.format('should create %d databases', numTables), function(done) {
 		createTables.addTables(cl,  function(){
 			selectFunctions.getAllTables(cl, function(results){
 				assert.equal(results.length, allTables.length, util.format("Expected %d tables", allTables.length));
@@ -96,7 +105,7 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert genres into table",function(done){
 		insertFunctions.insertGenres(genres, cl, function(){
 			selectFunctions.getAllGenres(cl, function(results){
-				assert.equal(results.length, genres.length, util.format("Expected %d artsits",genres.length));
+				assert.equal(results.length, genres.length, util.format("Expected %d genres",genres.length));
 				done();
 			});
 		});
@@ -109,9 +118,54 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 			});
 		});
 	});
-	// it("should insert songs that users liked into UserSongLikes table ", function(done){
-	// 	async.eachSeries()
-	// });
+	it("should insert songs that users liked into UserSongLikes table ", function(done){
+		async.eachSeries(userSongLikes, function(entry, callback){
+			insertFunctions.addUserSongLike(entry.username, entry.songTitle, cl,function(){
+				callback();
+			});
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+	it("should insert album that users liked into UserAlbumLikes table ", function(done){
+		async.eachSeries(userAlbumLikes, function(entry, callback){
+			insertFunctions.addUserAlbumLike(entry.username, entry.albumTitle, cl,function(){
+				callback();
+			});
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+	it("should insert genres that users liked into UserGenreLikes table ", function(done){
+		async.eachSeries(userGenreLikes, function(entry, callback){
+			insertFunctions.addUserGenreLike(entry.username, entry.genreTitle, cl,function(){
+				callback();
+			});
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+	it("should insert artist that users liked into UserArtistLikes table ", function(done){
+		async.eachSeries(userArtistLikes, function(entry, callback){
+			insertFunctions.addUserArtistLike(entry.username, entry.artist, cl,function(){
+				callback();
+			});
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
 });
 
 describe('Select and Check for data in music DB', function(){
@@ -130,17 +184,18 @@ describe('Select and Check for data in music DB', function(){
 				callback();
 			});
 
-		}, function (err){ // called after to finish 'it' block
+		}, function (err) {
 			if (err) console.log(err);
-			done();
+			else {
+				done();
+			}
 		});
-
 	});
 });
 
 
 describe("Delete all tables", function(){ // keep as last test to delete tables
-	it('should remove al=l tables from test database', function(done){
+	it('should remove all tables from test database', function(done){
 		getClient(db_path, function(client){
 			deleteTables(client, allTables, function(client){
 				selectFunctions.getAllTables(client, function(results){

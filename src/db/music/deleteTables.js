@@ -7,6 +7,7 @@ var insertFunctions = require('./insert_operations');
 
 
 function deleteTables(client, tables, callback){
+	var queryString = "drop table ";
 	for (var i = 0; i < tables.length; i++){
 		if (i != tables.length - 1){
 			queryString += tables[i]+ ", ";

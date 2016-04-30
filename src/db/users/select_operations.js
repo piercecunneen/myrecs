@@ -8,7 +8,7 @@ var exectuteSelect = queryFunctions.exectuteSelect;
 
 
 function getUser(username, client, callback){
-	var queryString = "SELECT username, email from users where username = $1";
+	var queryString = "SELECT id, username, email from users where username = $1";
 	var params = [username];
 	exectuteSelect(queryString, params, client, callback);
 }
@@ -24,6 +24,7 @@ function getAllTables(client, callback){
 	var params = [];
 	exectuteSelect(queryString, params, client, callback);
 }
+
 
 module.exports = {
 	getUser:getUser,

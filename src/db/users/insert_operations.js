@@ -24,7 +24,7 @@ function addUser(username, password, email, client, callback){
 
 
 
-function addUsers(users, client, callback){ 
+function addUsers(users, client, callback){
 	// For adding multiple users to database at once
 	var numUsers = users.length;
 	for (var i = 0; i < numUsers; i++){
@@ -46,7 +46,3 @@ module.exports = {
 	addUsers:addUsers,
 	hashPassword:hashPassword
 }
-
-
-
-

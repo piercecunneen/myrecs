@@ -8,7 +8,7 @@ var selectFunctions = require('./select_operations');
 var executeInsertQuery = queryFunctions.executeInsertQuery;
 var getClient = require("../client/get_client").getClient;
 
-
+var getUser = require("../users/select_operations").getUser;
 
 
 
@@ -54,6 +54,16 @@ function addArtistGenrePair(genreName, artistName, client, callback){
 			executeInsertQuery(queryString, queryParameters, client, callback);
 		});
 
+	});
+}
+
+function addUserSongLike(username, songTitle, client, callback){
+	getUser(username, client, function(userData) {
+		selectFunctions.getSongID(songTitle, client, function(songID){
+			queryString = "INSERT into UserSongLikes values ($1, $2)";
+			queryParameters = [userData.id, songID];
+			executeInsertQuery(queryString, queryParameters, client, callback);
+		});
 	});
 }
 

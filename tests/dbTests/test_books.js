@@ -69,6 +69,7 @@ describe("Insert books, authors, and genres", function(){
 
 
 
+
 describe("Destroy book tables", function(){
     it("should delete all tables", function (done){
         getClient(db_path, function(client){

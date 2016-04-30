@@ -3,6 +3,7 @@ var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var queryFunctions = require('../queries/execute_queries')
 
+var userFunctions = require('../users/select_operations');
 
 var exectuteSelect = queryFunctions.exectuteSelect;
 
@@ -88,6 +89,25 @@ function getGenreID(genre, client, callback){
 	});
 }
 
+function getSongID(songTitle, client, callback){
+	var query = "select songID from songs where songTitle = $1";
+	var queryParameters = [songTitle];
+	exectuteSelect(query, queryParameters, client, function(rows){
+		callback(rows[0].songid);
+	});
+}
+
+
+// function getUserSongLikes(username, client, callback){
+// 	var query = "select "
+// }
+
+
+
+
+
+
+
 function getAllArtists(client, callback){
 	var query = "select artistName from musicArtists"
 	var queryParameters = [];
@@ -117,6 +137,8 @@ function getAllArtistGenres(client, callback){
 	var queryParameters = [];
 	exectuteSelect(query, queryParameters, client, callback);
 }
+
+
 
 
 

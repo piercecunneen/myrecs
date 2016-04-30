@@ -19,7 +19,7 @@ function createUserDB(client, callback){
 	var queryString = "CREATE TABLE " + table + "(id SERIAL PRIMARY KEY, username VARCHAR(40) not null, password UUID not null, email VARCHAR(40), isValidated BOOLEAN)";
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
-	
+
 }
 
 

@@ -11,7 +11,11 @@ function addTables(client, callback){
 	createAlbumDB(client, "done");
 	createMusicGenreDB(client, "done");
 	createArtistGenreDB(client, "done");
-	createSongDB(client, callback)
+	createSongDB(client, "done");
+	createUserSongLikes(client, "done");
+	createUserAlbumLikes(client, "done");
+	createUserArtistLikes(client, "done");
+	createUserGenreLikes(client, callback);
 
 }
 
@@ -25,7 +29,7 @@ function createSongDB(client, callback){
 
 function createMusicArtistsDB(client, callback){
 	var table = "musicArtists";
-	var queryString = "CREATE TABLE " + table + "(artistID SERIAL PRIMARY KEY, artistName VARCHAR(50) not null)";
+	var queryString = "CREATE TABLE " + table + "(artistID SERIAL PRIMARY KEY, artistName VARCHAR(50) not null, startYear int)";
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
 }
@@ -59,6 +63,33 @@ function createArtistGenreDB(client, callback){
 
 }
 
+function createUserSongLikes(client, callback){
+	var table = "UserSongLikes";
+	var queryString = "CREATE TABLE " + table + "(userID int REFERENCES users (id), songID int REFERENCES songs (songID), date_of_like date)";
+	var params = [];
+	executeCreateDBQuery(queryString, params, client, callback);
+}
+
+function createUserAlbumLikes(client, callback){
+	var table = "UserAlbumLikes";
+	var queryString = "CREATE TABLE " + table + "(userID int REFERENCES users (id), albumID int REFERENCES albums (albumID), date_of_like date)";
+	var params = [];
+	executeCreateDBQuery(queryString, params, client, callback);
+}
+
+function createUserArtistLikes(client, callback){
+	var table = "UserArtistLikes";
+	var queryString = "CREATE TABLE " + table + "(userID int REFERENCES users (id), artistID int REFERENCES musicartists (artistID), date_of_like date)";
+	var params = [];
+	executeCreateDBQuery(queryString, params, client, callback);
+}
+
+function createUserGenreLikes(client, callback){
+	var table = "UserGenreLikes";
+	var queryString = "CREATE TABLE " + table + "(userID int REFERENCES users (id), genreID int REFERENCES musicgenres (genreID), date_of_like date)";
+	var params = [];
+	executeCreateDBQuery(queryString, params, client, callback);
+}
 
 
 
@@ -69,4 +100,8 @@ module.exports = {
 	createAlbumDB:createAlbumDB,
 	createMusicGenreDB:createMusicGenreDB,
 	createArtistGenreDB:createArtistGenreDB,
+	createUserSongLikes:createUserSongLikes,
+	createUserAlbumLikes:createUserAlbumLikes,
+	createUserArtistLikes:createUserArtistLikes,
+	createUserGenreLikes:createUserGenreLikes
 }

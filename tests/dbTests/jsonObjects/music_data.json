@@ -4,7 +4,12 @@
         "musicgenres",
         "songs",
         "albums",
-        "musicartists"
+        "musicartists",
+        "UserSongLikes",
+        "UserAlbumLikes",
+        "UserArtistLikes",
+        "UserGenreLikes"
+
     ],
     "artists": [
         "Swift", "Perry", "Rihanna", "Beyonce"
@@ -42,5 +47,6 @@
         {"artist": "Beyonce", "genre":"Pop" },
         {"artist": "Beyonce", "genre":"HipHop" }
     ]
+
 
 }

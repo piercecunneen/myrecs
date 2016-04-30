@@ -5,6 +5,9 @@ var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var crypto = require('crypto');
 
+var async = require('async');
+const util = require('util');
+
 var userDB = "../../src/db/users/"
 var insertFunctions = require(userDB + 'insert_operations');
 var selectFunctions = require(userDB + 'select_operations');
@@ -12,7 +15,9 @@ var createTables = require(userDB + 'createTables');
 var deleteTables = require(userDB + 'delete_tables').deleteTables;
 var getClient = require("../../src/db/client/get_client").getClient;
 
-tables = ['users'];
+var JsonUserData = require("./jsonObjects/user_data.json");
+tables = JsonUserData.tables;
+users = JsonUserData.users;
 
 describe('Create User table', function() {
 	var numTables = tables.length;
@@ -48,8 +53,6 @@ describe("Test hashing function",  function() {
 
 
 describe('Users', function() {
-	var users = [{username:"pcunneen", password:'5BrnH+', email:'pcunneen@nd.edu'},
-				{username:"dDeBaker", password:'Banana42', email:'dDeBaker@nd.edu'}]
 	it('should insert users', function(done){
 		getClient(db_path, function(client){
 			insertFunctions.addUsers(users, client, function(){
@@ -63,16 +66,16 @@ describe('Users', function() {
 
 	it('should return matching email', function(done){
 		getClient(db_path, function(client){
-			var user1 = users[0];
-			selectFunctions.getUser(user1.username, client, function(results, query){
-				assert.equal(results[0].email, user1.email, "email not equal to " + user1.email);
-
-			});
-			var user2 = users[1];
-			selectFunctions.getUser(user2.username, client, function(results, query){
-				assert.equal(results[0].email, user2.email, "email not equal to " + user2.email);
+			async.eachSeries(users, function(user, callback) {
+				selectFunctions.getUser(user.username, client, function(results, query){
+					assert.equal(results[0].email, user.email, "email not equal to " + user.email);
+					callback();
+				});
+			}, function (err) {
+				if (err) console.log(err);
 				done();
-			});
+
+			})
 
 
 		});
@@ -93,6 +96,3 @@ describe("Delete user tables", function(){ // keep as last test to delete tables
 		});
 	});
 });
-
-
-

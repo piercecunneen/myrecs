@@ -4,8 +4,11 @@ var assert = chai.assert;
 var db_name = 'test';
 var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name +'.db';
 var async = require('async');
+const util = require('util');
 
 
+var userDB = "../../src/db/users/"
+var createUserDB  = require(userDB + 'createTables');
 
 
 var musicDB = "../../src/db/music/"
@@ -26,16 +29,31 @@ var songs = JsonMusicData.songs;
 var numSongs = songs.length;
 var genres = JsonMusicData.genres;
 var genreArtistPairs = JsonMusicData["genre-artist"];
+userTable = ['users'];
+
+var allTables =  userTable.concat(tables)
+
 
 describe('Create tables', function() {
-	var numTables = tables.length;
-	it('should create ' + numTables + ' databases', function(done) {
+	var cl;
+	before(function(done){
 		getClient(db_path, function(client){
-			createTables.addTables(client,  function(){
-				selectFunctions.getAllTables(client, function(results){
-					assert.equal(results.length, numTables, "Expected " + numTables + " tables");
-					done();
-				});
+			cl = client;
+			createUserDB.addTables(cl,  function(){
+				done();
+			});
+
+
+
+		});
+	});
+
+	var numTables = tables.length;
+	it(util.format('should create %d databases'), function(done) {
+		createTables.addTables(cl,  function(){
+			selectFunctions.getAllTables(cl, function(results){
+				assert.equal(results.length, allTables.length, util.format("Expected %d tables", allTables.length));
+				done();
 			});
 		});
 	});
@@ -53,7 +71,7 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert artists into table", function(done){
 		insertFunctions.insertArtists(artists, cl, function(){
 			selectFunctions.getAllArtists(cl, function(results){
-				assert.equal(results.length, artists.length, "Expected " + artists.length + " artists");
+				assert.equal(results.length, artists.length, util.format("Expected %d artists", artists.length));
 				done();
 			});
 		});
@@ -61,7 +79,7 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert albums into table", function(done){
 		insertFunctions.insertAlbums(albums, cl, function(){
 			selectFunctions.getAllAlbums(cl, function(results){
-				assert.equal(results.length, numAlbums, "Expected " + numAlbums + " artists");
+				assert.equal(results.length, numAlbums, util.format("Expected %d numAlbums", numAlbums));
 				done();
 			});
 		});
@@ -70,7 +88,7 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 		insertFunctions.insertSongs(songs, cl, function(){
 			selectFunctions.getAllSongs(cl, function(results){
 				// console.log("SONGS");
-				assert.equal(results.length, numSongs, "Expected " + numSongs + " artists");
+				assert.equal(results.length, numSongs, util.format("Expected %d artists",numSongs));
 				done()
 			});
 		});
@@ -78,7 +96,7 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert genres into table",function(done){
 		insertFunctions.insertGenres(genres, cl, function(){
 			selectFunctions.getAllGenres(cl, function(results){
-				assert.equal(results.length, genres.length, "Expected " + genres.length + " artists");
+				assert.equal(results.length, genres.length, util.format("Expected %d artsits",genres.length));
 				done();
 			});
 		});
@@ -86,11 +104,14 @@ describe('Insert artists, albums, songs, and music genres into music DB ', funct
 	it("should insert genre-artist pairs", function(done){
 		insertFunctions.insertArtistGenrePairs(genreArtistPairs, cl, function(){
 			selectFunctions.getAllArtistGenres(cl, function(results){
-				assert.equal(results.length, results.length, "Expected " +  genreArtistPairs.length + " artist genre pairs");
+				assert.equal(results.length, results.length, util.format("Expected %d artist genre pairs",genreArtistPairs.length ));
 				done();
 			});
-		})
-	})
+		});
+	});
+	// it("should insert songs that users liked into UserSongLikes table ", function(done){
+	// 	async.eachSeries()
+	// });
 });
 
 describe('Select and Check for data in music DB', function(){
@@ -119,9 +140,9 @@ describe('Select and Check for data in music DB', function(){
 
 
 describe("Delete all tables", function(){ // keep as last test to delete tables
-	it('should remove all tables from test database', function(done){
+	it('should remove al=l tables from test database', function(done){
 		getClient(db_path, function(client){
-			deleteTables(client, tables, function(client){
+			deleteTables(client, allTables, function(client){
 				selectFunctions.getAllTables(client, function(results){
 					assert.equal(results.length, 0, "Expected 0 tables");
 					client.end();

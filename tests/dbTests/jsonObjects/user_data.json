@@ -1,0 +1,17 @@
+{
+    "users": [
+        {"username":"pcunneen", "password":"5BrnH+", "email":"pcunneen@nd.edu"},
+		{"username":"DeBaker", "password":"Banana42", "email":"dDeBaker@nd.edu"},
+        {"username": "Zjanicki", "password": "I like C++", "email": "zjanicki@nd.edu"}
+    ],
+    "tables":  [
+        "users"
+    ]
+
+
+
+
+
+
+
+}

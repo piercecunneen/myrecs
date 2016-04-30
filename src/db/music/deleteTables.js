@@ -4,27 +4,25 @@ var db_path = process.env.DATABASE_URL || 'postgres://localhost:5432/' + db_name
 var client = new pg.Client(db_path);
 var insertFunctions = require('./insert_operations');
 
-tables = ['ArtistGenre',  'musicgenres', 'songs','albums' ,'musicartists' ];
-count = tables.length;
+
 
 function deleteTables(client, tables, callback){
-	if (tables.length == 0){
+	for (var i = 0; i < tables.length; i++){
+		if (i != tables.length - 1){
+			queryString += tables[i]+ ", ";
+		}
+		else{
+			queryString += tables[i];
+		}
+	}
+	var query = client.query(queryString);
+
+
+
+	query.on('end', function () {
 		callback(client);
-	}
-	else{
-		var queryString = 'drop table ' + tables[0];
-		var query = client.query(queryString);
 
-
-
-		query.on('end', function () {
-			deleteTables(client, tables.slice(1), callback);
-
-		});
-		query.on('error', function (error){
-			callback("error");
-		});
-	}
+	});
 
 
 }

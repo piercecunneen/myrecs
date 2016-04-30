@@ -38,6 +38,8 @@ function getAllBookGenrePairs(client, callback){
 }
 
 
+
+
 function getGenreID(genreName, client, callback){
 	var queryString = "select genreID from bookGenres where name = $1";
 	var queryParameters = [genreName];

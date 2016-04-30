@@ -98,11 +98,37 @@ function getSongID(songTitle, client, callback){
 }
 
 
-// function getUserSongLikes(username, client, callback){
-// 	var query = "select "
-// }
+function getUserSongLikes(username, client, callback){
+	getUser(username, client, function(userData){
+		var queryString = "select songs.songTitle, UserSongLikes.songID  from UserSongLikes INNER JOIN songs on songs.songID = usersonglikes.songID where UserSongLikes.userID = $1";
+		var queryParameters = [userData[0].id]
+		exectuteSelect(query, queryParameters, client, callback);
+	});
+}
 
+function getUserAlbumLikes(username, client, callback){
+	getUser(username. client, function(userData){
+		var queryString = "select albums.albumTitle, UserAlbumLikes.albumID  from UserAlbumLikes INNER JOIN albums on albums.albumID = UserAlbumLikes.albumID where UserAlbumLikes.userID = $1";
+		var queryParameters = [userData[0].id]
+		exectuteSelect(query, queryParameters, client, callback);
+	});
+}
 
+function getUserArtistLikes(username, client, callback){
+	getUser(username. client, function(userData){
+		var queryString = "select musicArtists.artistName, UserArtistLikes.artistID  from UserArtistLikes INNER JOIN musicArtists on musicArtists.artistID = UserArtistLikes.artistID where UserArtistLikes.userID = $1";
+		var queryParameters = [userData[0].id]
+		exectuteSelect(query, queryParameters, client, callback);
+	});
+}
+
+function getUserGenreLikes(username, client, callback){
+	getUser(username. client, function(userData){
+		var queryString = "select musicGenres.genreName, UserGenreLikes.genreID  from UserGenreLikes INNER JOIN musicGenres on musicGenres.genreID = UserGenreLikes.genreID where UserGenreLikes.userID = $1";
+		var queryParameters = [userData[0].id]
+		exectuteSelect(query, queryParameters, client, callback);
+	});
+}
 
 
 
@@ -156,5 +182,10 @@ module.exports = {
 	getAllGenres:getAllGenres,
 	getGenreID:getGenreID,
 	getAllArtistGenres:getAllArtistGenres,
-	getSongID:getSongID
+	getSongID:getSongID,
+	getUserAlbumLikes:getUserAlbumLikes,
+	getUserSongLikes:getUserSongLikes,
+	getUserArtistLikes:getUserArtistLikes,
+	getUserGenreLikes:getUserGenreLikes
+
 }

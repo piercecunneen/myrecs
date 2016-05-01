@@ -182,6 +182,7 @@ describe('Select and Check for data in music DB', function(){
 				assert.equal(result[0].artistname, song.artistName, "song name incorrect");
 				assert.equal(result[0].albumname, song.albumName, "album name incorrect");
 				callback();
+
 			});
 
 		}, function (err) {
@@ -192,9 +193,127 @@ describe('Select and Check for data in music DB', function(){
 		});
 	});
 
-	// it('should return correct songs liked by each user', function(done){
-	//
-	// })
+	it('should return correct songs liked by each user', function(done){
+		async.eachSeries(users, function(user, callback){ // passes song to assert statements
+			var songs_to_check = [];
+			for (var i = 0; i < userSongLikes.length; i++){
+				if (userSongLikes[i]['username'] == user.username){
+					songs_to_check.push(userSongLikes[i]['songTitle']);
+				}
+			}
+			// console.log(songs);
+			selectFunctions.getUserSongLikes(user.username, cl, function(returned_songs) {
+				assert.equal(returned_songs.length, songs_to_check.length, util.format("Expected %d songs to be returned, got %d", songs_to_check.length, returned_songs.length))
+
+				for (var j = 0; j < returned_songs.length; j++){
+					if (songs_to_check.indexOf(returned_songs[j].songtitle) == -1){
+						assert(0, util.format("returned unexpected song %s", returned_songs[j].songtitle));
+					}
+				}
+				callback();
+			})
+
+
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+
+	it('should return correct albums liked by each user', function(done){
+		async.eachSeries(users, function(user, callback){ // passes song to assert statements
+			var albums_to_check = [];
+			for (var i = 0; i < userAlbumLikes.length; i++){
+				if (userAlbumLikes[i]['username'] == user.username){
+					albums_to_check.push(userAlbumLikes[i]['albumTitle']);
+				}
+			}
+			// console.log(albums);
+			selectFunctions.getUserAlbumLikes(user.username, cl, function(returned_albums) {
+				assert.equal(returned_albums.length, albums_to_check.length, util.format("Expected %d albums to be returned, got %d", albums_to_check.length, returned_albums.length))
+
+				for (var j = 0; j < returned_albums.length; j++){
+					if (albums_to_check.indexOf(returned_albums[j]["albumname"]) == -1){
+						assert(0, util.format("returned unexpected album %s", returned_albums[j]["albumname"]));
+					}
+				}
+				callback();
+			})
+
+
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+
+	it('should return correct artists liked by each user', function(done){
+		async.eachSeries(users, function(user, callback){ // passes song to assert statements
+			var artists_to_check = [];
+			for (var i = 0; i < userArtistLikes.length; i++){
+				if (userArtistLikes[i]['username'] == user.username){
+					artists_to_check.push(userArtistLikes[i]['artist']);
+				}
+			}
+			// console.log(albums);
+			selectFunctions.getUserArtistLikes(user.username, cl, function(returned_artists) {
+				assert.equal(returned_artists.length, artists_to_check.length, util.format("Expected %d albums to be returned, got %d", artists_to_check.length, returned_artists.length))
+
+				for (var j = 0; j < returned_artists.length; j++){
+					if (artists_to_check.indexOf(returned_artists[j]["artistname"]) == -1){
+						console.log("returned artists ...");
+						console.log(returned_artists);
+
+						console.log("\n\nExpected artists");
+						console.log(artists_to_check);
+						assert(0, util.format("returned unexpected artist %s", returned_artists[j]["artistname"]));
+					}
+				}
+				callback();
+			})
+
+
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
+
+	it('should return correct genres liked by each user', function(done){
+		async.eachSeries(users, function(user, callback){ // passes song to assert statements
+			var genres_to_check = [];
+			for (var i = 0; i < userGenreLikes.length; i++){
+				if (userGenreLikes[i]['username'] == user.username){
+					genres_to_check.push(userGenreLikes[i]['genreTitle']);
+				}
+			}
+			// console.log(albums);
+			selectFunctions.getUserGenreLikes(user.username, cl, function(returned_genres) {
+				assert.equal(returned_genres.length, genres_to_check.length, util.format("Expected %d albums to be returned, got %d", genres_to_check.length, returned_genres.length))
+
+				for (var j = 0; j < returned_genres.length; j++){
+					if (genres_to_check.indexOf(returned_genres[j]["genrename"]) == -1){
+
+						assert(0, util.format("returned unexpected genre %s", returned_genres[j]["genrename"]));
+					}
+				}
+				callback();
+			})
+
+
+		}, function (err) {
+			if (err) console.log(err);
+			else {
+				done();
+			}
+		});
+	});
 });
 
 

@@ -1,14 +1,8 @@
 {
     "tables": [
-        "ArtistGenre",
-        "musicgenres",
-        "songs",
-        "albums",
-        "musicartists",
-        "UserSongLikes",
-        "UserAlbumLikes",
-        "UserArtistLikes",
-        "UserGenreLikes"
+        "SongLikes",
+        "AlbumLikes",
+        "ArtistLikes"
 
     ],
     "artists": [

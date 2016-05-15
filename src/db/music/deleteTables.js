@@ -21,9 +21,14 @@ function deleteTables(client, tables, callback){
 
 
 	query.on('end', function () {
-		callback(client);
+		callback(null, client);
 
 	});
+	query.on('error', function(error) {
+      callback(error);
+    });
+
+
 
 
 }

@@ -4,8 +4,7 @@ function executeInsertQuery(queryString, queryParameters, client, callback){ // 
 	var query = client.query(queryString, queryParameters,
 		function(err, results) {
 			if (err){
-				console.log(err);
-				callback("Error");
+				callback(err);
 			}
 			else{
 				if (callback == 'done'){
@@ -14,7 +13,7 @@ function executeInsertQuery(queryString, queryParameters, client, callback){ // 
 				}
 				else{
 					// pass client and query so that we can end client connection on query ending
-					callback(client, query, results.rows);
+					callback(null, client, query, results.rows);
 				}
 			}
 		})
@@ -24,8 +23,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 	var query = client.query(queryString, params,
 		function(err, results){
 			if (err){
-				console.log(queryString);
-				callback("Error");
+				callback(err);
 			}
 			else{
 				if (callback == "done"){
@@ -33,7 +31,7 @@ function executeCreateDBQuery(queryString, params, client, callback){
 
 				}
 				else{
-					callback(client, query);
+					callback(null, client, query);
 				}
 			}
 	});
@@ -45,15 +43,14 @@ function exectuteSelect(queryString, params, client, callback){ // select versio
 	var query = client.query(queryString, params,
 		function(err, results){
 			if (err){
-				console.log(err);
-				callback("Error");
+				callback(err);
 			}
 			else{
 				if (callback === "done"){
 					callback();
 				}
 				else{
-					callback(results.rows, query);
+					callback(null, results.rows, query);
 				}
 			}
 

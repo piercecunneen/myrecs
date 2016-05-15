@@ -97,7 +97,8 @@ function getAlbum(albumID, callback){
 				callback(error, null);
 			}
 			else{
-				callback(null, JSON.parse(body));
+				var album = createAlbum(JSON.parse(body));
+				callback(null, album);
 			}
 		}
 	)
@@ -118,8 +119,8 @@ function getTrack(trackID, callback){
 				callback(error, null);
 			}
 			else{
-				var track_info = JSON.parse(body)
-				callback(null, createTrack(track_info));
+				var track = createTrack(JSON.parse(body));
+				callback(null, track);
 			}
 		}
 	);
@@ -139,7 +140,8 @@ function getArtist(artistID, callback){
 				callback(error, null);
 			}
 			else{
-				callback(null, JSON.parse(body));
+				var artist = createArtist(JSON.parse(body))
+				callback(null,artist );
 			}
 		}
 	);
@@ -158,7 +160,15 @@ function getMultipleArtists(artistIDs, callback){
 				callback(error, null);
 			}
 			else{
-				callback(null, JSON.parse(body));
+				var artists = [];
+
+				var artistJsonData = JSON.parse(body);
+
+				for (var i = 0; i < artistJsonData['artists'].length; i++){
+					var artist = createArtist(artistJsonData['artists'][i]);
+					artists.push(artist);
+				}
+				callback(null, artists);
 			}
 		}
 	);
@@ -207,11 +217,48 @@ function getMultipleAlbums(albumIDs, callback){
 				callback(error, null);
 			}
 			else{
-				callback(null, JSON.parse(body));
+
+				var albums = [];
+
+				var albumJsonData = JSON.parse(body);
+				for (var i = 0; i < albumJsonData['albums'].length; i++){
+					var album = createAlbum(albumJsonData['albums'][i]);
+					albums.push(album);
+				}
+
+				callback(null, albums);
 			}
 		}
 	);
 
+}
+
+function getArtistAlbums(artistID, callback){
+	var baseURL = "https://api.spotify.com/v1/artists";
+	var fullURI = util.format("%s/%s/albums", baseURL, artistID);
+	request({
+		uri:fullURI,
+		method: "GET"
+
+	},
+		function(error, response, body){
+			if (error){
+				callback(error, null);
+			}
+			else{
+
+				var albums = [];
+
+				var albumJsonData = JSON.parse(body)['items'];
+				for (var i = 0; i < albumJsonData.length; i++){
+					var album = createAlbum(albumJsonData[i]);
+					albums.push(album);
+				}
+
+				callback(null, albums);
+			}
+		}
+	);
 }
 
 function formatSearchString(query){
@@ -220,20 +267,7 @@ function formatSearchString(query){
 }
 
 
-// getMultipleArtists(["4LGkurYRKq8Zvp7ZD5d0Uu","1LkHIkfUDhZ995ATQ1BJKW", "14tNNpoHgVDU8es3Xr7ZWN"], function(err, response){
-// 	if (err){
-// 		console.log(err);
-// 	}
-// 	else{
-// 		var tracks = response['tracks'];
-// 		for (var i = 0; i < tracks.length; i++){
-// 			var track = tracks[i];
-// 			console.log(track['name']);
 
-				
-// 		}
-// 	}
-// })
 
 function createTrack(trackJsonData){
 	var artists = [];
@@ -287,22 +321,36 @@ function createArtist(artistJsonData){
 }
 
 
-getMultipleTracks(["14tNNpoHgVDU8es3Xr7ZWN", "3CyE8NGB5AyilM9MtJxpsA"], function(err, tracks){
-	if (err){
-		console.log(err);
-	}
-	else{
-		console.log(tracks.length);
-		for (var i = 0; i < tracks.length; i++){
-			var track = tracks[i];
-			console.log(track.title);
-			console.log(track.id);
-			console.log(track.album.title);
-			console.log(track.artists[0].name)
-		}
+// getMultipleArtists(["68EB3QvNdVLkC7SAgDbHIR", "20JZFwl6HVl6yg8a4H3ZqK"], function(err, artists){
+// 	if (err){
+// 		console.log(err);
+// 	}
+// 	else{
 		
-	}
-})
+// 		for (var i = 0; i < artists.length; i++){
+
+// 			var artist = artists[i];
+// 			console.log(artist.name);
+// 			console.log(artist.followersTotal);
+			
+// 		}
+		
+// 	}
+// })
+
+// getArtistAlbums("68EB3QvNdVLkC7SAgDbHIR", function(err, albums){
+// 	if (err){
+// 		console.log(err);
+// 	}
+// 	else {
+// 		for (var i = 0; i < albums.length; i++){
+// 			var album = albums[i];
+// 			console.log(album.title);
+// 			console.log(album.id);
+// 			console.log("\n\n");
+// 		}
+// 	}
+// })
 
 
 

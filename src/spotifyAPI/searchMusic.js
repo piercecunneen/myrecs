@@ -261,12 +261,6 @@ function getArtistAlbums(artistID, callback){
 	);
 }
 
-function formatSearchString(query){
-	var splitStringArray = query.split(" ").filter(function (a) {return a != ""});
-	return splitStringArray.join("+")
-}
-
-
 
 
 function createTrack(trackJsonData){
@@ -321,36 +315,8 @@ function createArtist(artistJsonData){
 }
 
 
-// getMultipleArtists(["68EB3QvNdVLkC7SAgDbHIR", "20JZFwl6HVl6yg8a4H3ZqK"], function(err, artists){
-// 	if (err){
-// 		console.log(err);
-// 	}
-// 	else{
-		
-// 		for (var i = 0; i < artists.length; i++){
 
-// 			var artist = artists[i];
-// 			console.log(artist.name);
-// 			console.log(artist.followersTotal);
-			
-// 		}
-		
-// 	}
-// })
-
-// getArtistAlbums("68EB3QvNdVLkC7SAgDbHIR", function(err, albums){
-// 	if (err){
-// 		console.log(err);
-// 	}
-// 	else {
-// 		for (var i = 0; i < albums.length; i++){
-// 			var album = albums[i];
-// 			console.log(album.title);
-// 			console.log(album.id);
-// 			console.log("\n\n");
-// 		}
-// 	}
-// })
-
-
-
+function formatSearchString(query){
+	var splitStringArray = query.split(" ").filter(function (a) {return a != ""});
+	return splitStringArray.join("+")
+}

@@ -39,9 +39,8 @@ var Album = function (albumJsonObject, artists, tracks){
 
 
 Album.prototype.print = function() {
-	console.log(this.title);
-  console.log(this.genres);
-  console.log(this.id);
+	console.log("Album: " + this.title);
+  console.log("ID: " + this.id);
 }
 
 

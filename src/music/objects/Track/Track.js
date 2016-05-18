@@ -20,15 +20,12 @@ var Track = function (songJsonData, album, artists) {
 
 };
 
-// Track.prototype.parseSongData = function(songJsonData){
-	
 
-// }
 
 Track.prototype.print = function() {
 	console.log("Title: " +  this.title);
-	// console.log("Artist: " +  this.artist);
-	// console.log("Album: " + this.album);
+	console.log("ID: " + this.id);
+	
 
 }
 

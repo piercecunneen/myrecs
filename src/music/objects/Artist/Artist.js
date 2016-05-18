@@ -35,15 +35,15 @@ var Artist = function (artistJsonObject){
     this.followersTotal = artistJsonObject['followers']['total'];
     this.followersLink = artistJsonObject['followers']['href'];
   }
-  
+
 }
 
 
 
 
 Artist.prototype.print = function(){
-	console.log(this.name);
-	console.log(this.id);
+	console.log("Artist: " + this.name);
+	console.log("ID: " + this.id);
 }
 
 

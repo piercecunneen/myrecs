@@ -79,8 +79,7 @@ describe('Create tables', function() {
 
 });
 
-describe('Tests spotify API search/GET functions', function
-	(){
+describe('Tests spotify API search/GET functions', function(){
 	var cl;
 	before(function(done){
 		getClient(db_path, function(err, client){
@@ -92,6 +91,13 @@ describe('Tests spotify API search/GET functions', function
 			done();
 		});
 	});
+
+});
+
+describe('Insert song, album and artist likes into music DB ', function(){
+
+
+
 
 
 

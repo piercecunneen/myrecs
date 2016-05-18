@@ -2,7 +2,15 @@
     "tables": [
         "SongLikes",
         "AlbumLikes",
-        "ArtistLikes"
+        "ArtistLikes",
+        "RequestsMain",
+        "songRequests",
+        "albumRequests",
+        "artistRequests",
+        "RecommendationsMain",
+        "SongRecommendations",
+        "ArtistRecommendations",
+        "AlbumRecommendations"
 
     ],
     "artists": [

@@ -13,7 +13,7 @@ var getUser = require("../users/select_operations").getUser;
 
 
 
-function addUserSongLike(username, spotifySongID, client, callback){
+function addSongLike(username, spotifySongID, client, callback){
 	getUser(username, client, function(err, userData) {
 		if (err){
 			callback(err);
@@ -24,7 +24,7 @@ function addUserSongLike(username, spotifySongID, client, callback){
 	});
 }
 
-function addUserArtistLike(username, spotifyArtistID, client, callback){
+function addArtistLike(username, spotifyArtistID, client, callback){
 	getUser(username, client, function(err, userData) {
 		if (err){
 			callback(err);
@@ -34,7 +34,7 @@ function addUserArtistLike(username, spotifyArtistID, client, callback){
 		executeInsertQuery(queryString, queryParameters, client, callback);
 	});
 }
-function addUserAlbumLike(username, spotifyAlbumID, client, callback){
+function addAlbumLike(username, spotifyAlbumID, client, callback){
 	getUser(username, client, function(err,userData) {
 		if (err){
 			callback(err);
@@ -59,30 +59,30 @@ function addAlbumRequest(requestID, albumRequestInfo, client, callback){
 	executeInsertQuery(queryString, queryParameters, client, callback);
 }
 function addArtistRequest(requestID, artistRequestInfo, client, callback){
-	queryString = "INSERT into artistRequests values ($1, $2, $3, $4)";
-	queryParameters = [requestID, artistRequestInfo['genre'], artistRequestInfo['spotifyArtistID'], artistRequestInfo['similarToArtistSpotifyID']];
+	queryString = "INSERT into artistRequests values ($1, $2, $3)";
+	queryParameters = [requestID, artistRequestInfo['genre'], artistRequestInfo['similarToArtistSpotifyID']];
 	executeInsertQuery(queryString, queryParameters, client, callback);
 }
-function addRequest(fromUsername, toUsername, itemType, itemInfo, client, callback){
+function addRequest(requestInfo, client, callback){
 	var functionMappings = {"song": addSongRequest, "album": addAlbumRequest, "artist": addArtistRequest};
-	getUser(fromUsername, client, function(err, fromUserData){
+	getUser(requestInfo['from'], client, function(err, fromUserData){
 		if (err){
 			callback(err);
 		}
 		else{
-			getUser(toUsername, client, function(err, toUserData){
+			getUser(requestInfo['to'], client, function(err, toUserData){
 				if (err){
 					callback(err);
 				}
 				else{
 					queryString = "INSERT into RequestsMain values (Default, $1, $2, $3, $4, CURRENT_DATE) RETURNING RequestID";
-					queryParameters = [fromUserData[0].id, toUserData[0].id, itemType, 0];
-					executeInsertQuery(queryString, queryParameters, client, function(err, client, query, result){
+					queryParameters = [fromUserData[0].id, toUserData[0].id, requestInfo['type'], 0];
+					executeInsertQuery(queryString, queryParameters, client, function(err, cl, query, result){
 						if (err){
 							callback(err);
 						}
 						else{
-							functionMappings['itemType'](result[0].id, itemInfo, client, callback);
+							functionMappings[requestInfo['type']](result[0].requestid, requestInfo, client, callback);
 						}
 					})
 				}
@@ -91,24 +91,55 @@ function addRequest(fromUsername, toUsername, itemType, itemInfo, client, callba
 	});
 }
 
+function addSongRecommendation(requestID, songRecommendationInfo, client, callback){
+	var queryString = "INSERT into songRecommendations values ($1, $2)";
+	var queryParameters = [requestID, songRecommendationInfo['spotifySongID']];
+	executeInsertQuery(queryString, queryParameters, client, callback);
+
+
+}
+
+function addArtistRecommendation(requestID, ArtistRecommendationInfo, client, callback){
+	var queryString = "INSERT into ArtistRecommendations values ($1, $2)";
+	var queryParameters = [requestID, ArtistRecommendationInfo['spotifyArtistID']];
+	executeInsertQuery(queryString, queryParameters, client, callback);
+
+
+}
+function addAlbumRecommendation(requestID, AlbumRecommendationInfo, client, callback){
+	var queryString = "INSERT into AlbumRecommendations values ($1, $2)";
+	var queryParameters = [requestID, AlbumRecommendationInfo['spotifyAlbumID']];
+	executeInsertQuery(queryString, queryParameters, client, callback);
+
+
+}
 
 
 
-
-function addRecommendation(fromUsername, toUsername, itemID, itemType, client, callback){
-	getUser(fromUsername, client, function(err, fromUserData){
+function addRecommendation(recommendationInfo, client, callback){
+	var functionMappings = {"song": addSongRecommendation, "artist": addArtistRecommendation,"album": addAlbumRecommendation}
+	getUser(recommendationInfo['from'], client, function(err, fromUserData){
 		if (err){
 			callback(err);
 		}
 		else{
-			getUser(toUsername, client, function(err, toUserData){
+			getUser(recommendationInfo['to'], client, function(err, toUserData){
 				if (err){
 					callback(err);
 				}
 				else{
-					queryString = "INSERT into RecommendationsMain values (Default, $1, $2, $3, $4, CURRENT_DATE)";
-					queryParameters = [fromUserData[0].id, toUserData[0].id, itemType, itemID];
-					executeInsertQuery(queryString, queryParameters, client, callback);
+					console.log(fromUserData);
+					console.log(toUserData);
+					queryString = "INSERT into RecommendationsMain values (Default, $1, $2, $3, CURRENT_DATE) RETURNING recommendationID";
+					queryParameters = [fromUserData[0].id, toUserData[0].id, recommendationInfo['type']];
+					executeInsertQuery(queryString, queryParameters, client, function(err, cl, query, result){
+						if (err){
+							callback(err);
+						}
+						else{
+							functionMappings[recommendationInfo['type']](result[0].recommendationid, recommendationInfo, client, callback);
+						}
+					});
 				}
 			});
 		}
@@ -127,9 +158,11 @@ function addRecommendation(fromUsername, toUsername, itemID, itemType, client, c
 
 
 module.exports = {
-	addUserSongLike:addUserSongLike,
-	addUserArtistLike:addUserArtistLike,
-	addUserAlbumLike:addUserAlbumLike
+	addSongLike:addSongLike,
+	addArtistLike:addArtistLike,
+	addAlbumLike:addAlbumLike,
+	addRequest:addRequest,
+	addRecommendation:addRecommendation
 
 
 };

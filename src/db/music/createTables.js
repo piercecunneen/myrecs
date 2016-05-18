@@ -47,7 +47,7 @@ function createAlbumLikesDB(client, callback){
 
 function createRequestsDB(client, callback){
 	var table = "RequestsMain";
-	var queryString = util.format("CREATE TABLE %s (requestID SERIAL PRIMARY KEY,fromUserID int REFERENCES users (id), toUserID int REFERENCES users (id), itemType int, isFufilled Boolean, dateOfRequest date)", table);
+	var queryString = util.format("CREATE TABLE %s (requestID SERIAL PRIMARY KEY,fromUserID int REFERENCES users (id), toUserID int REFERENCES users (id), itemType VARCHAR(20), isFufilled Boolean, dateOfRequest date)", table);
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
 }
@@ -62,7 +62,7 @@ function createSongRequestDB(client, callback){
 
 function createArtistRequestDB(client, callback){
 	var table = "artistRequests";
-	var queryString = util.format("CREATE TABLE %s (requestID int REFERENCES RequestsMain (requestID), genre VARCHAR(20), spotifyArtistID VARCHAR(30), similarToArtistSpotifyID VARCHAR (30) )", table);
+	var queryString = util.format("CREATE TABLE %s (requestID int REFERENCES RequestsMain (requestID), genre VARCHAR(20), similarToArtistSpotifyID VARCHAR (30) )", table);
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
 }
@@ -76,7 +76,7 @@ function createAlbumRequestDB(client, callback){
 
 function createRecommendationDB(client, callback){
 	var table = "RecommendationsMain";
-	var queryString = util.format("CREATE TABLE %s (recommendationID SERIAL PRIMARY KEY, fromUserID int REFERENCES users (id), toUserID int REFERENCES users (id), itemType int, dateOfRecommendation date)", table);
+	var queryString = util.format("CREATE TABLE %s (recommendationID SERIAL PRIMARY KEY, fromUserID int REFERENCES users (id), toUserID int REFERENCES users (id), itemType VARCHAR (20), dateOfRecommendation date)", table);
 	var params = [];
 	executeCreateDBQuery(queryString, params, client, callback);
 }

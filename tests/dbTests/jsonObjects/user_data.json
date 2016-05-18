@@ -7,43 +7,31 @@
     "tables":  [
         "users"
     ],
-    "userSongLikes": [
-        {"username": "pcunneen", "songTitle": "Red"},
-        {"username": "pcunneen", "songTitle": "We are never gettting back together"},
-        {"username": "pcunneen", "songTitle": "California girls"},
-        {"username": "pcunneen", "songTitle": "S&M"},
-        {"username": "pcunneen", "songTitle": "Listen"},
-        {"username": "DeBaker", "songTitle": "Diamonds"},
-        {"username": "DeBaker", "songTitle": "Shake it off"},
-        {"username": "DeBaker", "songTitle": "Disturbia"},
-        {"username": "Zjanicki", "songTitle": "fireworks"},
-        {"username": "Zjanicki", "songTitle": "mean"},
-        {"username": "Zjanicki", "songTitle": "Listen"},
-        {"username": "Zjanicki", "songTitle": "We are never gettting back together"},
-        {"username": "Zjanicki", "songTitle": "Red"}
+    "SongLikes": [
+        {"username": "pcunneen", "songTitle": "Celebrity Status"},
+        {"username": "pcunneen", "songTitle": "Death Of A Bachelor"},
+        {"username": "pcunneen", "songTitle": "Don't Threaten Me With A Good Time"},
+        {"username": "pcunneen", "songTitle": "Cross My Heart"},
+        {"username": "DeBaker", "songTitle": "Death Of A Bachelor"},
+        {"username": "DeBaker", "songTitle": "Celebrity Status"},
+        {"username": "Zjanicki", "songTitle": "Don't Threaten Me With A Good Time"},
+        {"username": "Zjanicki", "songTitle": "Death Of A Bachelor"},
+        {"username": "Zjanicki", "songTitle": "Celebrity Status"}
     ],
-    "userAlbumLikes": [
-        {"username": "pcunneen", "albumTitle": "Red"},
-        {"username": "pcunneen", "albumTitle": "Dangerously in Love"},
-        {"username": "pcunneen", "albumTitle": "Loud"},
-        {"username": "DeBaker", "albumTitle": "Dangerously in Love"},
-        {"username": "DeBaker", "albumTitle": "Good girl gone bad"},
-        {"username": "DeBaker", "albumTitle": "22"},
-        {"username": "Zjanicki", "albumTitle": "22"},
-        {"username": "Zjanicki", "albumTitle": "Loud"}
+    "AlbumLikes": [
+        {"username": "pcunneen", "albumTitle": "Masterpiece Theatre"},
+        {"username": "pcunneen", "albumTitle": "Death Of A Bachelor"},
+        {"username": "DeBaker", "albumTitle": "Death Of A Bachelor"},
+        {"username": "Zjanicki", "albumTitle": "Masterpiece Theatre"}
     ],
-    "userArtistLikes": [
-        {"username": "pcunneen", "artist": "Swift"},
-        {"username": "pcunneen", "artist": "Rihanna"},
-        {"username": "pcunneen", "artist": "Beyonce"},
-        {"username": "DeBaker", "artist": "Perry"},
-        {"username": "DeBaker", "artist": "Beyonce"},
-        {"username": "DeBaker", "artist": "Rihanna"},
-        {"username": "Zjanicki", "artist": "Rihanna"},
-        {"username": "Zjanicki", "artist": "Swift"}
+    "ArtistLikes": [
+        {"username": "pcunneen", "artist": "Marianas Trench"},
+        {"username": "pcunneen", "artist": "Panic! At The Disco"},
+        {"username": "DeBaker", "artist": "Marianas Trench"},
+        {"username": "Zjanicki", "artist": "Panic! At The Disco"}
 
     ],
-    "userGenreLikes": [
+    "GenreLikes": [
         {"username": "pcunneen", "genreTitle": "Country"},
         {"username": "pcunneen", "genreTitle": "Pop"},
         {"username": "pcunneen", "genreTitle": "HipHop"},

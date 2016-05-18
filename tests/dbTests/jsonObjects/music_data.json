@@ -13,42 +13,34 @@
         "AlbumRecommendations"
 
     ],
-    "artists": [
-        "Swift", "Perry", "Rihanna", "Beyonce"
-    ],
-    "albums": [
-        {"albumName": "Red", "artistName": "Swift"},
-        {"albumName": "Teen age dream", "artistName": "Perry"},
-        {"albumName": "22", "artistName": "Swift"},
-        {"albumName": "Loud", "artistName": "Rihanna"},
-        {"albumName": "Dangerously in Love", "artistName": "Beyonce"},
-        {"albumName": "Good girl gone bad", "artistName": "Rihanna"}
-    ],
-    "songs": [
-        {"songName":"Disturbia" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
-        {"songName":"S&M" , "artistName":"Rihanna" , "albumName":"Loud" },
-        {"songName":"If I were a boy" , "artistName":"Beyonce" , "albumName":"Dangerously in Love" },
-        {"songName":"Halo" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
-        {"songName":"Diamonds" , "artistName":"Rihanna" , "albumName":"Loud" },
-        {"songName":"Listen" , "artistName":"Beyonce" , "albumName":"Dangerously in Love" },
-        {"songName":"Work" , "artistName":"Rihanna" , "albumName":"Good girl gone bad" },
-        {"songName":"We are never gettting back together" , "artistName":"Swift" , "albumName":"22" },
-        {"songName":"Red" , "artistName":"Swift" , "albumName":"Red" },
-        {"songName":"E.T." , "artistName":"Perry" , "albumName":"Teen age dream" },
-        {"songName":"California girls" , "artistName":"Perry" , "albumName":"Teen age dream" },
-        {"songName":"mean" , "artistName":"Swift" , "albumName":"22" },
-        {"songName":"fireworks" , "artistName":"Perry" , "albumName":"Teen age dream" },
-        {"songName":"Shake it off" , "artistName":"Swift" , "albumName":"22" }
-    ],
-    "genres": ["Pop", "Rap", "HipHop", "R&B", "Country"],
-    "genre-artist": [
-        {"artist": "Swift", "genre":"Pop" },
-        {"artist": "Swift", "genre":"Country" },
-        {"artist": "Perry", "genre":"Pop" },
-        {"artist": "Rihanna", "genre":"R&B" },
-        {"artist": "Beyonce", "genre":"Pop" },
-        {"artist": "Beyonce", "genre":"HipHop" }
-    ]
 
+
+    "artists": 
+        {"Marianas Trench": "68EB3QvNdVLkC7SAgDbHIR", "Panic! At The Disco": "20JZFwl6HVl6yg8a4H3ZqK"  }
+    ,
+        
+    "albums": {
+        "Masterpiece Theatre": "6GcTcEg2V7ZUx0wOOklwyO",
+        "Death Of A Bachelor":"6twKQ0EsUJHVlAr6XBylrj"
+        },
+    "songs": {
+        "Celebrity Status": "14tNNpoHgVDU8es3Xr7ZWN",
+        "Cross My Heart":  "1LkHIkfUDhZ995ATQ1BJKW",
+        "Death Of A Bachelor" :"1BECwm5qkaBwlbfo4kpYx8",
+        "Don't Threaten Me With A Good Time":"2fh3bZ8jZhMxOcfESE9nQY"
+         },
+   "requests": [
+        {"from": "pcunneen", "to": "Zjanicki", "type": "song", "genre": "rock", "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR" , "similarToSpotifySongID": null},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "artist", "genre": "rock", "similarToArtistSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "album", "genre": "rock", "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR","similarToAlbumSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "song", "genre": null, "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR" , "similarToSpotifySongID": "1LkHIkfUDhZ995ATQ1BJKW"}
+    ],
+
+    "recommendations": [
+        {"from": "pcunneen", "to": "Zjanicki", "type": "song", "spotifySongID": "1LkHIkfUDhZ995ATQ1BJKW"},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "artist", "spotifyArtistID": "68EB3QvNdVLkC7SAgDbHIR"},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "album", "spotifyAlbumID": "6GcTcEg2V7ZUx0wOOklwyO"}
+
+    ]
 
 }

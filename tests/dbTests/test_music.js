@@ -33,10 +33,11 @@ var numSongs = songs.length;
 userTable = ['users'];
 
 users = JsonUserData.users;
-userSongLikes = JsonUserData.userSongLikes;
-userAlbumLikes = JsonUserData.userAlbumLikes;
-userArtistLikes = JsonUserData.userArtistLikes;
-userGenreLikes = JsonUserData.userGenreLikes;
+SongLikes = JsonUserData.SongLikes;
+AlbumLikes = JsonUserData.AlbumLikes;
+ArtistLikes = JsonUserData.ArtistLikes;
+requests = JsonMusicData.requests;
+recommendations = JsonMusicData.recommendations
 
 
 var allTables =  userTable.concat(tables)
@@ -95,112 +96,132 @@ describe('Tests spotify API search/GET functions', function(){
 });
 
 describe('Insert song, album and artist likes into music DB ', function(){
+	var cl;
+	before(function(done){
+		getClient(db_path, function(err, client){
+			if (err){
+				console.log(err);
+				assert(0);
+			}
+			cl = client;
+			done();
+		});
+	});
 
+		
 
-
-
-
+	it ("should insert song likes into DB", function(done){
+		async.eachSeries(SongLikes, function(entry, callback){
+			insertFunctions.addSongLike(entry["username"], songs[entry["songTitle"]], cl, function(err) {
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				callback();
+			});
+		}, function (err) {
+			if (err) {
+				console.log(err);
+				assert(0);
+			}
+			else {
+				done();
+			}
+		});
+	});
+	it ("should insert album likes into DB", function(done){
+		async.eachSeries(AlbumLikes, function(entry, callback){
+			insertFunctions.addAlbumLike(entry["username"], albums[entry["albumTitle"]], cl, function(err) {
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				callback();
+			});
+		}, function (err) {
+			if (err) {
+				console.log(err);
+				assert(0);
+			}
+			else {
+				done();
+			}
+		});
+	});
+	it ("should insert artist likes into DB", function(done){
+		async.eachSeries(ArtistLikes, function(entry, callback){
+			insertFunctions.addArtistLike(entry["username"], artists[entry["artist"]], cl, function(err) {
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				callback();
+			});
+		}, function (err) {
+			if (err) {
+				console.log(err);
+				assert(0);
+			}
+			else {
+				done();
+			}
+		});
+	});
 
 });
 
-// describe('Insert artists, albums, songs, and music genres into music DB ', function() {
-// 	var cl;
-// 	before(function(done){
-// 		getClient(db_path, function(client){
-// 			cl = client;
-// 			done();
-// 		})
-// 	})
-// 	it("should insert artists into table", function(done){
-// 		insertFunctions.insertArtists(artists, cl, function(){
-// 			selectFunctions.getAllArtists(cl, function(results){
-// 				assert.equal(results.length, artists.length, util.format("Expected %d artists", artists.length));
-// 				done();
-// 			});
-// 		});
-// 	});
-// 	it("should insert albums into table", function(done){
-// 		insertFunctions.insertAlbums(albums, cl, function(){
-// 			selectFunctions.getAllAlbums(cl, function(results){
-// 				assert.equal(results.length, numAlbums, util.format("Expected %d numAlbums", numAlbums));
-// 				done();
-// 			});
-// 		});
-// 	});
-// 	it("should insert songs into table", function(done){
-// 		insertFunctions.insertSongs(songs, cl, function(){
-// 			selectFunctions.getAllSongs(cl, function(results){
-// 				// console.log("SONGS");
-// 				assert.equal(results.length, numSongs, util.format("Expected %d artists",numSongs));
-// 				done()
-// 			});
-// 		});
-// 	});
-// 	it("should insert genres into table",function(done){
-// 		insertFunctions.insertGenres(genres, cl, function(){
-// 			selectFunctions.getAllGenres(cl, function(results){
-// 				assert.equal(results.length, genres.length, util.format("Expected %d genres",genres.length));
-// 				done();
-// 			});
-// 		});
-// 	});
-// 	it("should insert genre-artist pairs", function(done){
-// 		insertFunctions.insertArtistGenrePairs(genreArtistPairs, cl, function(){
-// 			selectFunctions.getAllArtistGenres(cl, function(results){
-// 				assert.equal(results.length, results.length, util.format("Expected %d artist genre pairs",genreArtistPairs.length ));
-// 				done();
-// 			});
-// 		});
-// 	});
-// 	it("should insert songs that users liked into UserSongLikes table ", function(done){
-// 		async.eachSeries(userSongLikes, function(entry, callback){
-// 			insertFunctions.addUserSongLike(entry.username, entry.songTitle, cl,function(){
-// 				callback();
-// 			});
-// 		}, function (err) {
-// 			if (err) console.log(err);
-// 			else {
-// 				done();
-// 			}
-// 		});
-// 	});
-// 	it("should insert album that users liked into UserAlbumLikes table ", function(done){
-// 		async.eachSeries(userAlbumLikes, function(entry, callback){
-// 			insertFunctions.addUserAlbumLike(entry.username, entry.albumTitle, cl,function(){
-// 				callback();
-// 			});
-// 		}, function (err) {
-// 			if (err) console.log(err);
-// 			else {
-// 				done();
-// 			}
-// 		});
-// 	});
-// 	it("should insert genres that users liked into UserGenreLikes table ", function(done){
-// 		async.eachSeries(userGenreLikes, function(entry, callback){
-// 			insertFunctions.addUserGenreLike(entry.username, entry.genreTitle, cl,function(){
-// 				callback();
-// 			});
-// 		}, function (err) {
-// 			if (err) console.log(err);
-// 			else {
-// 				done();
-// 			}
-// 		});
-// 	});
-// 	it("should insert artist that users liked into UserArtistLikes table ", function(done){
-// 		async.eachSeries(userArtistLikes, function(entry, callback){
-// 			insertFunctions.addUserArtistLike(entry.username, entry.artist, cl,function(){
-// 				callback();
-// 			});
-// 		}, function (err) {
-// 			if (err) console.log(err);
-// 			else {
-// 				done();
-// 			}
-// 		});
-// 	});
-// });
+describe('Insert requests and recommendations into DB', function(){
+	var cl;
+	before(function(done){
+		getClient(db_path, function(err, client){
+			if (err){
+				console.log(err);
+				assert(0);
+			}
+			cl = client;
+			done();
+		});
+	});
+	it('Should insert song, album, and artist requests', function(done) {
+		async.eachSeries(requests, function(request, callback){
+			insertFunctions.addRequest(request, cl, function(err) {
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				callback();
+			});
+		}, function (err) {
+			if (err) {
+				console.log(err);
+				assert(0);
+			}
+			else {
+				done();
+			}
+		});
+	})
+	it('Should insert song, album, and artist requests', function(done) {
+		async.eachSeries(recommendations, function(rec, callback){
+			insertFunctions.addRecommendation(rec, cl, function(err) {
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				callback();
+			});
+		}, function (err) {
+			if (err) {
+				console.log(err);
+				assert(0);
+			}
+			else {
+				done();
+			}
+		});
+	})
+
+})
 
 // describe('Select and Check for data in music DB', function(){
 // 	var cl;
@@ -350,29 +371,29 @@ describe('Insert song, album and artist likes into music DB ', function(){
 // });
 
 
-describe("Delete all tables", function(){ // keep as last test to delete tables
-	it('should remove all tables from test database', function(done){
-		getClient(db_path, function(err, client){
-			if (err){
+// describe("Delete all tables", function(){ // keep as last test to delete tables
+// 	it('should remove all tables from test database', function(done){
+// 		getClient(db_path, function(err, client){
+// 			if (err){
 	
-				console.log(err);
-				assert(0);
-			}
-			deleteTables(client, allTables, function(err, client){
-				if (err){
-					console.log(err);
-					assert(0);
-				}
-				selectFunctions.getAllTables(client, function(err, results){
-					if (err){
-						console.log(err);
-						assert(0);
-					}
-					assert.equal(results.length, 0, "Expected 0 tables");
-					client.end();
-					done();
-				});
-			});
-		});
-	});
-});
+// 				console.log(err);
+// 				assert(0);
+// 			}
+// 			deleteTables(client, allTables, function(err, client){
+// 				if (err){
+// 					console.log(err);
+// 					assert(0);
+// 				}
+// 				selectFunctions.getAllTables(client, function(err, results){
+// 					if (err){
+// 						console.log(err);
+// 						assert(0);
+// 					}
+// 					assert.equal(results.length, 0, "Expected 0 tables");
+// 					client.end();
+// 					done();
+// 				});
+// 			});
+// 		});
+// 	});
+// });

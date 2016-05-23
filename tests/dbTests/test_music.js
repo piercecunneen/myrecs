@@ -80,20 +80,6 @@ describe('Create tables', function() {
 
 });
 
-describe('Tests spotify API search/GET functions', function(){
-	var cl;
-	before(function(done){
-		getClient(db_path, function(err, client){
-			if (err){
-				console.log(err);
-				assert(0);
-			}
-			cl = client;
-			done();
-		});
-	});
-
-});
 
 describe('Insert song, album and artist likes into music DB ', function(){
 	var cl;
@@ -201,26 +187,80 @@ describe('Insert requests and recommendations into DB', function(){
 			}
 		});
 	})
-	it('Should insert song, album, and artist requests', function(done) {
+
+	it('should insert song, album, and artist recommendations', function(done){
 		async.eachSeries(recommendations, function(rec, callback){
-			insertFunctions.addRecommendation(rec, cl, function(err) {
+			insertFunctions.addRecommendation(rec, cl, function(err){
 				if (err){
 					console.log(err);
 					assert(0);
 				}
+				
 				callback();
 			});
-		}, function (err) {
-			if (err) {
+		}, function(err){
+			if (err){
 				console.log(err);
 				assert(0);
 			}
-			else {
+			else{
 				done();
 			}
 		});
-	})
+	});
 
+
+	
+
+})
+
+describe('Select and check music requests and recommendations', function(){
+	var cl;
+	before(function(done){
+		getClient(db_path, function(err, client){
+			if (err){
+				console.log(err);
+				assert(0);
+			}
+			cl = client;
+			done();
+		});
+	});
+	it('should get user song requests', function(done){
+		var data = {'username': "pcunneen", "type": "song", "isFufilled": 'f', "genre": null, "spotifyArtistID": null, "similarToSongSpotifyID": null};
+		
+		selectFunctions.getUserRequests(data, cl, function(err, results){
+			if (err){
+				console.log(err);
+				assert(0);
+			}
+			else{
+				for (var i = 0; i < results.length; i++){
+					console.log(results[i]);
+					console.log("\n\n\n");
+				}
+			}
+			done();
+		})
+	});
+
+	it('should get user artist requests ', function(done){
+		var data = {'fromUsername': "pcunneen", "toUsername": "Zjanicki", "type": "album"};
+		selectFunctions.getUserRecommendations(data, cl, function(err, results){
+			if (err){
+				console.log(err);
+				assert(0);
+			}
+			else{
+				for (var i = 0; i < results.length; i++){
+					console.log(results[i]);
+					console.log("\n\n\n");
+				}
+			}
+			done();
+		})
+	})
+	
 })
 
 // describe('Select and Check for data in music DB', function(){
@@ -371,29 +411,29 @@ describe('Insert requests and recommendations into DB', function(){
 // });
 
 
-// describe("Delete all tables", function(){ // keep as last test to delete tables
-// 	it('should remove all tables from test database', function(done){
-// 		getClient(db_path, function(err, client){
-// 			if (err){
+describe("Delete all tables", function(){ // keep as last test to delete tables
+	it('should remove all tables from test database', function(done){
+		getClient(db_path, function(err, client){
+			if (err){
 	
-// 				console.log(err);
-// 				assert(0);
-// 			}
-// 			deleteTables(client, allTables, function(err, client){
-// 				if (err){
-// 					console.log(err);
-// 					assert(0);
-// 				}
-// 				selectFunctions.getAllTables(client, function(err, results){
-// 					if (err){
-// 						console.log(err);
-// 						assert(0);
-// 					}
-// 					assert.equal(results.length, 0, "Expected 0 tables");
-// 					client.end();
-// 					done();
-// 				});
-// 			});
-// 		});
-// 	});
-// });
+				console.log(err);
+				assert(0);
+			}
+			deleteTables(client, allTables, function(err, client){
+				if (err){
+					console.log(err);
+					assert(0);
+				}
+				selectFunctions.getAllTables(client, function(err, results){
+					if (err){
+						console.log(err);
+						assert(0);
+					}
+					assert.equal(results.length, 0, "Expected 0 tables");
+					client.end();
+					done();
+				});
+			});
+		});
+	});
+});

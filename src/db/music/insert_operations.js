@@ -128,8 +128,6 @@ function addRecommendation(recommendationInfo, client, callback){
 					callback(err);
 				}
 				else{
-					console.log(fromUserData);
-					console.log(toUserData);
 					queryString = "INSERT into RecommendationsMain values (Default, $1, $2, $3, CURRENT_DATE) RETURNING recommendationID";
 					queryParameters = [fromUserData[0].id, toUserData[0].id, recommendationInfo['type']];
 					executeInsertQuery(queryString, queryParameters, client, function(err, cl, query, result){

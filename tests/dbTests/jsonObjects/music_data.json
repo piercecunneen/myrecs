@@ -15,25 +15,31 @@
     ],
 
 
-    "artists": 
-        {"Marianas Trench": "68EB3QvNdVLkC7SAgDbHIR", "Panic! At The Disco": "20JZFwl6HVl6yg8a4H3ZqK"  }
-    ,
+    "artists": {
+        "Marianas Trench": "68EB3QvNdVLkC7SAgDbHIR", 
+        "Panic! At The Disco": "20JZFwl6HVl6yg8a4H3ZqK",
+         "The All-American Rejects":"3vAaWhdBR38Q02ohXqaNHT"
+    },
         
     "albums": {
         "Masterpiece Theatre": "6GcTcEg2V7ZUx0wOOklwyO",
-        "Death Of A Bachelor":"6twKQ0EsUJHVlAr6XBylrj"
+        "Death Of A Bachelor":"6twKQ0EsUJHVlAr6XBylrj",
+        "Kids In The Street": "1ms6vZEGpl8Gul2ZD2GOOV"
         },
     "songs": {
         "Celebrity Status": "14tNNpoHgVDU8es3Xr7ZWN",
         "Cross My Heart":  "1LkHIkfUDhZ995ATQ1BJKW",
         "Death Of A Bachelor" :"1BECwm5qkaBwlbfo4kpYx8",
-        "Don't Threaten Me With A Good Time":"2fh3bZ8jZhMxOcfESE9nQY"
+        "Don't Threaten Me With A Good Time":"2fh3bZ8jZhMxOcfESE9nQY",
+        "Walk Over Me": "3Q4TrciFW0rFrcKqyMZUCg",
+        "Fast & Slow": "6wLHhiI0dVBVTymvNE8ial"
          },
    "requests": [
         {"from": "pcunneen", "to": "Zjanicki", "type": "song", "genre": "rock", "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR" , "similarToSpotifySongID": null},
-        {"from": "pcunneen", "to": "Zjanicki", "type": "artist", "genre": "rock", "similarToArtistSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
-        {"from": "pcunneen", "to": "Zjanicki", "type": "album", "genre": "rock", "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR","similarToAlbumSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
-        {"from": "pcunneen", "to": "Zjanicki", "type": "song", "genre": null, "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR" , "similarToSpotifySongID": "1LkHIkfUDhZ995ATQ1BJKW"}
+        {"from": "Zjanicki", "to": "pcunneen", "type": "artist", "genre": "rock", "similarToArtistSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
+        {"from": "DeBaker", "to": "Zjanicki", "type": "album", "genre": "rock", "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR","similarToAlbumSpotifyID": "68EB3QvNdVLkC7SAgDbHIR"},
+        {"from": "pcunneen", "to": "Zjanicki", "type": "song", "genre": null, "spotifyArtistID":"68EB3QvNdVLkC7SAgDbHIR" , "similarToSpotifySongID": "1LkHIkfUDhZ995ATQ1BJKW"},
+        {"from": "pcunneen", "to": "DeBaker", "type": "album", "genre": "pop punk", "spotifyArtistID":"20JZFwl6HVl6yg8a4H3ZqK","similarToAlbumSpotifyID": null}
     ],
 
     "recommendations": [

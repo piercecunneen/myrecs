@@ -30,15 +30,5 @@
         {"username": "DeBaker", "artist": "Marianas Trench"},
         {"username": "Zjanicki", "artist": "Panic! At The Disco"}
 
-    ],
-    "GenreLikes": [
-        {"username": "pcunneen", "genreTitle": "Country"},
-        {"username": "pcunneen", "genreTitle": "Pop"},
-        {"username": "pcunneen", "genreTitle": "HipHop"},
-        {"username": "DeBaker", "genreTitle": "Rap"},
-        {"username": "DeBaker", "genreTitle": "R&B"},
-        {"username": "DeBaker", "genreTitle": "Pop"},
-        {"username": "Zjanicki", "genreTitle": "Country"},
-        {"username": "Zjanicki", "genreTitle": "Pop"}
     ]
 }

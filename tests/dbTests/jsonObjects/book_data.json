@@ -1,25 +1,25 @@
 {
-    "tables": ["Books", "bookGenres","Authors"],
+  "tables": ["Books", "bookGenres","Authors"],
 
-    "authors": [
-        {"name" :"George R Martin"},
-        {"name": "Veronica Roth"},
-        {"name": "J. K. Rowling"}
-    ],
+  "authors": [
+    {"name" :"George R Martin"},
+    {"name": "Veronica Roth"},
+    {"name": "J. K. Rowling"}
+  ],
 
-    "genres": [
-        {"name": "Science Fiction"},
-        {"name": "Fantasy"},
-        {"name": "Drama"},
-        {"name": "Murder Mystery"},
-        {"name": "Thriller"}
-    ],
+  "genres": [
+    {"name": "Science Fiction"},
+    {"name": "Fantasy"},
+    {"name": "Drama"},
+    {"name": "Murder Mystery"},
+    {"name": "Thriller"}
+  ],
 
-    "books": [
-        {"title": "Game of Thrones", "author": "George R Martin", "genre": "Fantasy"},
-        {"title": "Harry Potter", "author": "J. K. Rowling", "genre": "Fantasy"},
-        {"title": "Divergent", "author":"Veronica Roth", "genre": "Science Fiction"}
+  "books": [
+    {"title": "Game of Thrones", "author": "George R Martin", "genre": "Fantasy"},
+    {"title": "Harry Potter", "author": "J. K. Rowling", "genre": "Fantasy"},
+    {"title": "Divergent", "author":"Veronica Roth", "genre": "Science Fiction"}
 
-    ]
+  ]
 
 }

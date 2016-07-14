@@ -20,65 +20,63 @@ var genres = JsonBookData.genres
 
 
 describe("Create book tables", function(){
-    var numTables = tables.length;
-    it("should create " + numTables + " tables", function (done){
-        getClient(db_path, function(client){
-            createTables.addTables(client, function(){
-                selectFunctions.getAllTables(client, function(results){
-					assert.equal(results.length, numTables, "Expected " + numTables + " tables");
-					done();
-				});
-            });
+  var numTables = tables.length;
+  it("should create " + numTables + " tables", function (done){
+    getClient(db_path, function(client){
+      createTables.addTables(client, function(){
+        selectFunctions.getAllTables(client, function(results){
+          assert.equal(results.length, numTables, "Expected " + numTables + " tables");
+          done();
         });
+      });
     });
+  });
 });
 
 describe("Insert books, authors, and genres", function(){
-    var cl;
-	before(function(done){
-		getClient(db_path, function(client){
-			cl = client;
-			done();
-		});
-	});
-    it('should insert genres into db', function(done){
-        insertFunctions.insertGenres(genres, cl, function(){
-            selectFunctions.getAllGenres(cl, function(results){
-                assert.equal(results.length, genres.length, "Expected to insert " + genres.length + " genres")
-                done();
-            });
-        });
+  var cl;
+  before(function(done){
+    getClient(db_path, function(client){
+      cl = client;
+      done();
     });
-    it('should insert authors into db', function(done){
-        insertFunctions.insertAuthors(authors, cl, function(){
-            selectFunctions.getAllAuthors(cl, function(results){
-                assert.equal(results.length, authors.length, "Expected to insert " + authors.length +  " authors")
-                done();
-            });
-        });
+  });
+  it('should insert genres into db', function(done){
+    insertFunctions.insertGenres(genres, cl, function(){
+      selectFunctions.getAllGenres(cl, function(results){
+          assert.equal(results.length, genres.length, "Expected to insert " + genres.length + " genres")
+          done();
+      });
     });
-    it('should insert books into db', function(done){
-        insertFunctions.insertBooks(books, cl, function(){
-            selectFunctions.getAllBooks(cl, function(results){
-                assert.equal(results.length, books.length, "Expected to insert " + books.length +  "books")
-                done();
-            });
-        });
+  });
+  it('should insert authors into db', function(done){
+    insertFunctions.insertAuthors(authors, cl, function(){
+      selectFunctions.getAllAuthors(cl, function(results){
+          assert.equal(results.length, authors.length, "Expected to insert " + authors.length +  " authors")
+          done();
+      });
     });
+  });
+  it('should insert books into db', function(done){
+    insertFunctions.insertBooks(books, cl, function(){
+      selectFunctions.getAllBooks(cl, function(results){
+          assert.equal(results.length, books.length, "Expected to insert " + books.length +  "books")
+          done();
+      });
+    });
+  });
 });
 
 
-
-
 describe("Destroy book tables", function(){
-    it("should delete all tables", function (done){
-        getClient(db_path, function(client){
-            deleteTables(client, tables, function(){
-                selectFunctions.getAllTables(client, function(results){
-					assert.equal(results.length, 0, "Expected 0 tables, got " + results.length);
-					done();
-				});
-            });
+  it("should delete all tables", function (done){
+    getClient(db_path, function(client){
+      deleteTables(client, tables, function(){
+        selectFunctions.getAllTables(client, function(results){
+          assert.equal(results.length, 0, "Expected 0 tables, got " + results.length);
+          done();
         });
+      });
     });
+  });
 });

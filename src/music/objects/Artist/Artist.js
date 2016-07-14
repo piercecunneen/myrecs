@@ -1,7 +1,6 @@
 
-
 var Artist = function (artistJsonObject){
-	this.id = artistJsonObject['id'];
+  this.id = artistJsonObject['id'];
   this.name = artistJsonObject['name'];
   this.detailedInfoLink = artistJsonObject['href'];
   this.linkToSpotify = artistJsonObject['external_urls']['spotify'];
@@ -35,15 +34,11 @@ var Artist = function (artistJsonObject){
     this.followersTotal = artistJsonObject['followers']['total'];
     this.followersLink = artistJsonObject['followers']['href'];
   }
-
 }
 
-
-
-
 Artist.prototype.print = function(){
-	console.log("Artist: " + this.name);
-	console.log("ID: " + this.id);
+  console.log("Artist: " + this.name);
+  console.log("ID: " + this.id);
 }
 
 

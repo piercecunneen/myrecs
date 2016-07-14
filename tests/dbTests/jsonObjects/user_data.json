@@ -1,34 +1,34 @@
 {
-    "users": [
-        {"username":"pcunneen", "password":"5BrnH+", "email":"pcunneen@nd.edu"},
-		{"username":"DeBaker", "password":"Banana42", "email":"dDeBaker@nd.edu"},
-        {"username": "Zjanicki", "password": "I like C++", "email": "zjanicki@nd.edu"}
-    ],
-    "tables":  [
-        "users"
-    ],
-    "SongLikes": [
-        {"username": "pcunneen", "songTitle": "Celebrity Status"},
-        {"username": "pcunneen", "songTitle": "Death Of A Bachelor"},
-        {"username": "pcunneen", "songTitle": "Don't Threaten Me With A Good Time"},
-        {"username": "pcunneen", "songTitle": "Cross My Heart"},
-        {"username": "DeBaker", "songTitle": "Death Of A Bachelor"},
-        {"username": "DeBaker", "songTitle": "Celebrity Status"},
-        {"username": "Zjanicki", "songTitle": "Don't Threaten Me With A Good Time"},
-        {"username": "Zjanicki", "songTitle": "Death Of A Bachelor"},
-        {"username": "Zjanicki", "songTitle": "Celebrity Status"}
-    ],
-    "AlbumLikes": [
-        {"username": "pcunneen", "albumTitle": "Masterpiece Theatre"},
-        {"username": "pcunneen", "albumTitle": "Death Of A Bachelor"},
-        {"username": "DeBaker", "albumTitle": "Death Of A Bachelor"},
-        {"username": "Zjanicki", "albumTitle": "Masterpiece Theatre"}
-    ],
-    "ArtistLikes": [
-        {"username": "pcunneen", "artist": "Marianas Trench"},
-        {"username": "pcunneen", "artist": "Panic! At The Disco"},
-        {"username": "DeBaker", "artist": "Marianas Trench"},
-        {"username": "Zjanicki", "artist": "Panic! At The Disco"}
+  "users": [
+    {"username":"pcunneen", "password":"5BrnH+", "email":"pcunneen@nd.edu"},
+    {"username":"DeBaker", "password":"Banana42", "email":"dDeBaker@nd.edu"},
+    {"username": "Zjanicki", "password": "I like C++", "email": "zjanicki@nd.edu"}
+  ],
+  "tables":  [
+    "users"
+  ],
+  "SongLikes": [
+    {"username": "pcunneen", "songTitle": "Celebrity Status"},
+    {"username": "pcunneen", "songTitle": "Death Of A Bachelor"},
+    {"username": "pcunneen", "songTitle": "Don't Threaten Me With A Good Time"},
+    {"username": "pcunneen", "songTitle": "Cross My Heart"},
+    {"username": "DeBaker", "songTitle": "Death Of A Bachelor"},
+    {"username": "DeBaker", "songTitle": "Celebrity Status"},
+    {"username": "Zjanicki", "songTitle": "Don't Threaten Me With A Good Time"},
+    {"username": "Zjanicki", "songTitle": "Death Of A Bachelor"},
+    {"username": "Zjanicki", "songTitle": "Celebrity Status"}
+  ],
+  "AlbumLikes": [
+    {"username": "pcunneen", "albumTitle": "Masterpiece Theatre"},
+    {"username": "pcunneen", "albumTitle": "Death Of A Bachelor"},
+    {"username": "DeBaker", "albumTitle": "Death Of A Bachelor"},
+    {"username": "Zjanicki", "albumTitle": "Masterpiece Theatre"}
+  ],
+  "ArtistLikes": [
+    {"username": "pcunneen", "artist": "Marianas Trench"},
+    {"username": "pcunneen", "artist": "Panic! At The Disco"},
+    {"username": "DeBaker", "artist": "Marianas Trench"},
+    {"username": "Zjanicki", "artist": "Panic! At The Disco"}
 
-    ]
+  ]
 }
